@@ -1,0 +1,36 @@
+{
+  "name": "glushkovds/simplex-admin",
+  "description": "Admin panel for simplex-cms",
+  "keywords": [
+    "php",
+    "simplex-admin",
+    "simplex-cms"
+  ],
+  "homepage": "https://github.com/glushkovds/simplex-admin",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Denis Glushkov",
+      "email": "amkarovec@gmail.com",
+      "homepage": "https://github.com/glushkovds"
+    }
+  ],
+  "require": {
+    "php": ">=7.1.0",
+    "ext-gd": "*",
+    "glushkovds/simplex-core": "*"
+  },
+  "require-dev": {
+  },
+  "suggest": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Simplex\\Admin\\": "src/Admin"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
+
