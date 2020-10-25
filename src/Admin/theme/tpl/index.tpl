@@ -1,77 +1,75 @@
 <?php
+
+use \Simplex\Admin\Page;
+
 //PlugJQuery::jquery();
-PlugJQuery::fancybox();
-AdminPlugAlert::init();
+\App\Plugins\Jquery\Jquery::fancybox();
+\Simplex\Admin\Plug\Alert::init();
+
+// GLOBAL MANDATORY STYLES
+Page::coreCss('/theme/css/global/font-awesome.min.css');
+Page::coreCss('/theme/css/global/simple-line-icons.min.css');
+Page::coreCss('/theme/css/global/bootstrap.min.css');
+Page::coreCss('/theme/css/global/uniform.default.css');
+
+// THEME STYLES
+Page::coreCss('/theme/css/conquer/style-conquer.css');
+Page::coreCss('/theme/css/conquer/style.css');
+Page::coreCss('/theme/css/conquer/style-responsive.css');
+Page::coreCss('/theme/css/conquer/default.css');
+
+// CORE PLUGINS
+Page::coreCss('/theme/css/conquer/default.css');
+Page::coreJs('/theme/js/conquer/jquery-1.11.0.min.js', 0);
+Page::coreJs('/theme/js/conquer/jquery-migrate-1.2.1.min.js', 0);
+Page::coreJs('/theme/js/conquer/bootstrap.min.js');
+Page::coreJs('/theme/js/conquer/bootstrap-hover-dropdown.min.js');
+Page::coreJs('/theme/js/conquer/jquery.uniform.min.js');
+Page::coreJs('/theme/js/conquer/app.js');
+Page::coreJs('/theme/js/conquer/form-components.js');
+
+Page::js('/theme/default/js/cookie.js');
+Page::coreJs('/theme/js/default.js');
+Page::coreCss('/theme/css/default.css');
+
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-    <head>
-        <title>
-            <?php echo SFAdminCore::menuCurItem('name') ? SFAdminCore::menuCurItem('name') . ' |' : '' ?>
-            <?php echo SFAdminCore::siteParam('site_name') ?> |
-            Simplex Admin 2.0
-        </title>
-        <!-- BEGIN GLOBAL MANDATORY STYLES -->
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=cyrillic,latin" rel="stylesheet" type="text/css"/>
-        <link href="/admin/theme/css/global/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-        <link href="/admin/theme/css/global/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
-        <link href="/admin/theme/css/global/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <link href="/admin/theme/css/global/uniform.default.css" rel="stylesheet" type="text/css"/>
-        <!-- END GLOBAL MANDATORY STYLES -->
+<head>
+    <title>
+        <?php echo \Simplex\Admin\Core::menuCurItem('name') ? \Simplex\Admin\Core::menuCurItem('name') . ' |' : '' ?>
+        <?php echo \Simplex\Admin\Core::siteParam('site_name') ?> |
+        Simplex Admin 2.0
+    </title>
 
-        <!-- BEGIN THEME STYLES -->
-        <link href="/admin/theme/css/conquer/style-conquer.css" rel="stylesheet" type="text/css"/>
-        <link href="/admin/theme/css/conquer/style.css" rel="stylesheet" type="text/css"/>
-        <link href="/admin/theme/css/conquer/style-responsive.css" rel="stylesheet" type="text/css"/>
-        <!--<link href="/admin/theme/css/conquer/plugins.css" rel="stylesheet" type="text/css"/>-->
-        <link href="/admin/theme/css/conquer/default.css" rel="stylesheet" type="text/css" id="style_color"/>
-        <!-- END THEME STYLES -->
+    <?php Page::meta() ?>
 
-        <!-- BEGIN CORE PLUGINS -->
-        <script src="/admin/theme/js/conquer/jquery-1.11.0.min.js" type="text/javascript"></script>
-        <script src="/admin/theme/js/conquer/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
-        <!--<script src="/admin/theme/js/conquer/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>-->
-        <script src="/admin/theme/js/conquer/bootstrap.min.js" type="text/javascript"></script>
-        <script src="/admin/theme/js/conquer/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
-        <!--<script src="/admin/theme/js/conquer/jquery.slimscroll.min.js" type="text/javascript"></script>-->
-        <!--<script src="/admin/theme/js/conquer/jquery.blockui.min.js" type="text/javascript"></script>-->
-        <script src="/admin/theme/js/conquer/jquery.uniform.min.js" type="text/javascript"></script>
-        <!--<script src="/admin/theme/js/conquer/jquery.knob.js"></script>-->
-        <!--<script src="/admin/theme/js/conquer/ui-knob.js"></script>-->
-        <script src="/admin/theme/js/conquer/app.js" type="text/javascript"></script>
-        <script src="/admin/theme/js/conquer/form-components.js" type="text/javascript"></script>
-
-        <?php SFAdminPage::meta() ?>
-
-        <script type="text/javascript" src="/theme/default/js/cookie.js"></script>
-        <script type="text/javascript" src="/admin/theme/js/default.js"></script>
-        <link type="text/css" rel="stylesheet" href="/admin/theme/css/default.css" />
-
-        <?php PlugFrontEnd::output(); ?>
-    </head>
+    <?php \App\Plugins\Frontend\Frontend::output(); ?>
+</head>
 
 
-    <body class="page-header-fixed">
+<body class="page-header-fixed">
 
 
-        <div class="header navbar navbar-fixed-top">
-            <div class="header-inner">
-                <div class="page-logo">
-                    <a href="/admin/">
-                        <span>Simplex</span>&nbsp;Admin
-                    </a>
-                </div>
+<div class="header navbar navbar-fixed-top">
+    <div class="header-inner">
+        <div class="page-logo">
+            <a href="/admin/">
+                <span>Simplex</span>&nbsp;Admin
+            </a>
+        </div>
 
-                <a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <img src="/admin/theme/img/menu-toggler.png" alt=""/>
-                </a>
+        <a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <img src="<?= \Simplex\Admin\Core::webVendorPath() ?>/theme/img/menu-toggler.png" alt=""/>
+        </a>
 
-                <ul class="nav navbar-nav pull-right">
+        <ul class="nav navbar-nav pull-right">
 
-                    <?php // SFAdminPage::notifications() ?>
+            <?php // SFAdminPage::notifications() ?>
 
-                    <!-- END NOTIFICATION DROPDOWN -->
-                    <?php /*
+            <!-- END NOTIFICATION DROPDOWN -->
+            <?php /*
                       <!-- BEGIN TODO DROPDOWN -->
                       <li class="dropdown" id="header_task_bar">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
@@ -208,79 +206,79 @@ AdminPlugAlert::init();
                       </li>
                       <!-- END TODO DROPDOWN -->
                      */ ?>
-                    <li class="devider">
-                        &nbsp;
+            <li class="devider">
+                &nbsp;
+            </li>
+            <!-- BEGIN USER LOGIN DROPDOWN -->
+            <li class="dropdown user">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                   data-close-others="true">
+                    <span class="username"> <?php echo \Simplex\Core\User::$login ?> </span>
+                    <i class="fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/admin/account/"><i class="fa fa-user"></i> Аккаунт</a>
                     </li>
-                    <!-- BEGIN USER LOGIN DROPDOWN -->
-                    <li class="dropdown user">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                            <span class="username"> <?php echo SFUser::$login ?> </span>
-                            <i class="fa fa-angle-down"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="/admin/account/"><i class="fa fa-user"></i> Аккаунт</a> 
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="?logout"><i class="fa fa-key"></i> Выйти</a>
-                            </li>
-                        </ul>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="?logout"><i class="fa fa-key"></i> Выйти</a>
                     </li>
-                    <!-- END USER LOGIN DROPDOWN -->
                 </ul>
-                <!-- END TOP NAVIGATION MENU -->
-            </div>  
-            <!-- END TOP NAVIGATION BAR -->
-        </div>
-        <!-- END HEADER -->
-        <div class="clearfix">
-        </div>
-        <!-- BEGIN CONTAINER -->
-        <div class="page-container">
+            </li>
+            <!-- END USER LOGIN DROPDOWN -->
+        </ul>
+        <!-- END TOP NAVIGATION MENU -->
+    </div>
+    <!-- END TOP NAVIGATION BAR -->
+</div>
+<!-- END HEADER -->
+<div class="clearfix">
+</div>
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
 
-            <?php SFAdminPage::position('menu') ?>
+    <?php Page::position('menu') ?>
 
-            <!-- BEGIN CONTENT -->
-            <div class="page-content-wrapper">
-                <div class="page-content">
+    <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
+        <div class="page-content">
 
-                    <!--                    <h3 class="page-title">
-                    <?php echo SFAdminCore::menuCurItem('name') ?> <small></small>
+            <!--                    <h3 class="page-title">
+                    <?php echo \Simplex\Admin\Core::menuCurItem('name') ?> <small></small>
                                         </h3>-->
-                    <div class="page-bar">
-                        <?php SFAdminPage::position('breadcrumbs') ?>
-                    </div>
-
-                    <?php AdminPlugAlert::output() ?>
-
-                    <?php SFAdminPage::position('content-before') ?>
-                    <?php SFAdminPage::content() ?>
-
-                </div>
+            <div class="page-bar">
+                <?php Page::position('breadcrumbs') ?>
             </div>
 
-            <!-- END CONTENT -->
+            <?php \Simplex\Admin\Plug\Alert::output() ?>
+
+            <?php Page::position('content-before') ?>
+            <?php Page::content() ?>
+
         </div>
-        <!-- END CONTAINER -->
-        <!-- BEGIN FOOTER -->
-        <div class="footer">
-            <div class="footer-inner">
-                2015 &copy; Simplex Admin 2.0
-            </div>
-            <div class="footer-tools">
+    </div>
+
+    <!-- END CONTENT -->
+</div>
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<div class="footer">
+    <div class="footer-inner">
+        2015 &copy; Simplex Admin 2.0
+    </div>
+    <div class="footer-tools">
                 <span class="go-top">
                     <i class="fa fa-angle-up"></i>
                 </span>
-            </div>
-        </div>
+    </div>
+</div>
+
+
+<?php Page::position('absolute') ?>
 
 
 
-        <?php SFAdminPage::position('absolute') ?>
-
-
-
-        <?php // DB::debug($GLOBALS['time_start']);  ?>
-    </body>
+<?php // DB::debug($GLOBALS['time_start']);  ?>
+</body>
 </html>

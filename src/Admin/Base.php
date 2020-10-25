@@ -255,7 +255,7 @@ class Base
         $cur_id = isset($cur['menu_id']) ? $cur['menu_id'] : 0;
         $menu = Core::menu();
         if (isset($menu[$cur_id])) {
-            include dirname(__FILE__) . '/tpl/index.tpl';
+            include dirname(__FILE__) . '/Base/tpl/index.tpl';
         }
     }
 

@@ -69,10 +69,8 @@ class Page
             if (in_array($menuCurModel, array('struct_param', 'struct_data', 'module_param', 'struct_table'))) {
                 self::$driver = new Struct();
             } elseif (in_array($menuCurModel, array('module_item'))) {
-                include $_SERVER['DOCUMENT_ROOT'] . '/admin/base/moduleitem.class.php';
                 self::$driver = new ModuleItem();
             } elseif (in_array($menuCurModel, array('component'))) {
-                include $_SERVER['DOCUMENT_ROOT'] . '/admin/base/component.class.php';
                 self::$driver = new Component();
             } else {
                 self::$driver = new Base();
@@ -152,6 +150,18 @@ class Page
             self::$js_check[md5($file)] = $idx;
             self::$js[$idx][md5($file)] = $file;
         }
+    }
+
+    public static function coreCss($file, $idx = 100)
+    {
+        $file = Core::webVendorPath() . $file;
+        static::css($file, $idx);
+    }
+
+    public static function coreJs($file, $idx = 100)
+    {
+        $file = Core::webVendorPath() . $file;
+        static::js($file, $idx);
     }
 
     public static function meta()

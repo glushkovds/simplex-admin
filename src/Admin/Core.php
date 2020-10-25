@@ -3,7 +3,11 @@
 namespace Simplex\Admin;
 
 
-class Core {
+use Simplex\Core\DB;
+use Simplex\Core\User;
+
+class Core
+{
 
     public static $ajax = '';
     public static $isAjax = false;
@@ -16,11 +20,23 @@ class Core {
     private static $crumbs = array();
     private static $site_params = false;
 
-    private function __construct() {
-        
+    private function __construct()
+    {
+
     }
 
-    public static function init() {
+    public static function webVendorPath()
+    {
+        return str_replace(SF_ROOT_PATH, '', __DIR__);
+    }
+
+    public static function vendorPath()
+    {
+        return __DIR__;
+    }
+
+    public static function init()
+    {
         $url_info = parse_url($_SERVER['REQUEST_URI']);
         self::$path = $url_info['path'];
         self::$uri = array_slice(explode('/', self::$path), 1);
@@ -33,14 +49,14 @@ class Core {
         $q = "
             SELECT menu_id, menu_pid, link, name, model, icon, hidden
             FROM admin_menu
-            WHERE priv_id IN(" . join(',', SFUser::privIds()) . ")
+            WHERE priv_id IN(" . join(',', User::privIds()) . ")
             ORDER BY npp, menu_id
         ";
         $rows = DB::assoc($q);
-
+print_r(DB::assoc('SHOW TABLES'));die;
         foreach ($rows as $row) {
-            self::$menu_tree[(int) $row['menu_pid']][(int) $row['menu_id']] = $row;
-            self::$menu_by_id[(int) $row['menu_id']] = $row;
+            self::$menu_tree[(int)$row['menu_pid']][(int)$row['menu_id']] = $row;
+            self::$menu_by_id[(int)$row['menu_id']] = $row;
             self::$menu_by_link[md5($row['link'])] = $row;
             if ($row['link'] == self::$path) {
                 self::$menu_cur = $row;
@@ -63,61 +79,72 @@ class Core {
         DB::bind(array('SITE_PATH' => self::$path));
     }
 
-    public static function ajax() {
+    public static function ajax()
+    {
         return self::$ajax;
     }
 
-    public static function uri($i = 0) {
+    public static function uri($i = 0)
+    {
         return isset(self::$uri[$i]) ? self::$uri[$i] : '';
     }
 
-    public static function menu() {
+    public static function menu()
+    {
         return self::$menu_tree;
     }
 
-    public static function menuCurItem($field = false) {
+    public static function menuCurItem($field = false)
+    {
         return $field ? @self::$menu_cur[$field] : self::$menu_cur;
     }
 
-    private static function crumbsSet($item = array()) {
-        if (isset(self::$menu_by_id[(int) $item['menu_pid']])) {
-            self::crumbsSet(self::$menu_by_id[(int) $item['menu_pid']]);
+    private static function crumbsSet($item = array())
+    {
+        if (isset(self::$menu_by_id[(int)$item['menu_pid']])) {
+            self::crumbsSet(self::$menu_by_id[(int)$item['menu_pid']]);
         }
         self::$crumbs[] = array('link' => $item['link'], 'name' => $item['name']);
     }
 
-    public static function crumbs() {
+    public static function crumbs()
+    {
         return self::$crumbs;
     }
 
-    public static function path() {
+    public static function path()
+    {
         return self::$path;
     }
 
-    public static function execute() {
-        if (SFUser::$id) {
-            if (SFUser::ican('simplex_admin')) {
-                SFAdminPage::init();
+    public static function execute()
+    {
+        if (static::uri(1) == 'login') {
+            Auth::login($_REQUEST['login']['login'] ?? null, $_REQUEST['login']['password'] ?? null);
+        }
+        if (User::$id) {
+            if (User::ican('simplex_admin')) {
+                Page::init();
                 //echo self::ajax() ? 1 : 0;
                 if (self::ajax()) {
-                    SFAdminPage::content();
+                    Page::content();
                 } else {
                     include 'theme/tpl/index.tpl';
                 }
-            }
-            else{
+            } else {
                 include 'theme/tpl/404.tpl';
             }
         } else {
             $back = $_SERVER['REQUEST_URI'];
-            if(strpos($back, 'logout') !== false){
+            if (strpos($back, 'logout') !== false) {
                 $back = '/admin/';
             }
             include 'theme/tpl/login.tpl';
         }
     }
 
-    public static function siteParam($key) {
+    public static function siteParam($key)
+    {
         if (!isset(self::$site_params[$key])) {
             self::$site_params[$key] = '';
             $q = "INSERT INTO settings(name, alias, value) VALUES('Новый параметр')";
