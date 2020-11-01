@@ -8,6 +8,7 @@ use Simplex\Admin\Base\ModuleItem;
 use Simplex\Admin\Base\Struct;
 use Simplex\Admin\Notify\Collection;
 use Simplex\Core\DB;
+use Simplex\Core\User;
 
 class Page
 {
@@ -29,6 +30,10 @@ class Page
 
     public static function init()
     {
+
+        if (!User::ican('simplex_admin')) {
+            return;
+        }
 
         $notify = Collection::getInstance();
         if (isset($_GET['sfnotify'])) {
@@ -93,7 +98,7 @@ class Page
                 if (empty($row['menu_id']) || (int)$row['menu_id'] == $curmenu['menu_id']) {
                     $class = $row['class'];
                     if (strpos($class, '\\') === false) {
-                        $class = "Simplex\Admin\Modules\{$class}\{$class}";
+                        $class = "Simplex\Admin\Modules\\$class\\$class";
                     }
                     $mod = new $class($row);
                     self::$positions[$row['posname']][] = $mod->execute();

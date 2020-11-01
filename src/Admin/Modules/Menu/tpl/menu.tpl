@@ -28,7 +28,7 @@
                 $c = array();
                 $hasChildren = isset($menu[$id]);
                 $hasChildren ? $c[] = 'has-children' : '';
-                substr(SFAdminCore::path(), 0, strlen($item['link'])) === $item['link'] ? $c[] = 'active' : '';
+                substr(\Simplex\Admin\Core::path(), 0, strlen($item['link'])) === $item['link'] ? $c[] = 'active' : '';
 //                if ($hasChildren) {
 //                    $item['link'] = 'javascript:;';
 //                }
@@ -52,7 +52,7 @@
                         $c = array();
                         $hasChildren2 = isset($menu[$id2]);
                         isset($menu[$id2]) ? $c[] = 'has-children' : '';
-                        substr(SFAdminCore::path(), 0, strlen($item['link'])) === $item['link'] ? $c[] = 'active' : '';
+                        substr(\Simplex\Admin\Core::path(), 0, strlen($item['link'])) === $item['link'] ? $c[] = 'active' : '';
                         echo '<li', count($c) ? ' class="' . join(' ', $c) . '"' : '', '>';
 
                         echo '<a href="', $item['link'], '">';
@@ -73,7 +73,7 @@
                                 }
                                 $c = array();
                                 //isset($menu[$id3]) ? $c[] = 'has-children' : '';
-                                $item['link'] == SFAdminCore::path() ? $c[] = 'active' : '';
+                                $item['link'] == \Simplex\Admin\Core::path() ? $c[] = 'active' : '';
                                 echo '<li', count($c) ? ' class="' . join(' ', $c) . '"' : '', '>';
 
                                 echo '<a href="', $item['link'], '">';

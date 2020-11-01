@@ -123,8 +123,6 @@ class Core
         }
         if (User::$id) {
             if (User::ican('simplex_admin')) {
-                Page::init();
-                //echo self::ajax() ? 1 : 0;
                 if (self::ajax()) {
                     Page::content();
                 } else {
