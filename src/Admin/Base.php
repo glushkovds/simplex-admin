@@ -429,7 +429,7 @@ class Base
 
         $saveId = (int)@$_GET['save_id'];
 
-        include dirname(__FILE__) . '/tpl/show.tpl';
+        include dirname(__FILE__) . '/Base/tpl/show.tpl';
     }
 
     /**
@@ -555,13 +555,13 @@ class Base
     protected function filter()
     {
         if ($this->is_filter) {
-            include dirname(__FILE__) . '/tpl/filter.tpl';
+            include dirname(__FILE__) . '/Base/tpl/filter.tpl';
         }
     }
 
     protected function filterExtra($addClearfix = true)
     {
-        include 'tpl/filter.extra.tpl';
+        include 'Base/tpl/filter.extra.tpl';
     }
 
     protected function filterField($field)
@@ -786,7 +786,7 @@ class Base
             $params = unserialize($row['params']);
         }
 
-        include dirname(__FILE__) . '/tpl/form.tpl';
+        include dirname(__FILE__) . '/Base/tpl/form.tpl';
     }
 
     /**
@@ -805,12 +805,12 @@ class Base
      */
     public function showActions()
     {
-        include 'tpl/show.actions.tpl';
+        include 'Base/tpl/show.actions.tpl';
     }
 
     public function rowActions($row)
     {
-        include 'tpl/show.actions.row.tpl';
+        include 'Base/tpl/show.actions.row.tpl';
     }
 
     public function copy()
@@ -1286,7 +1286,7 @@ class Base
      */
     protected function showDetailGetTpl()
     {
-        return 'tpl/show.detail.tpl';
+        return 'Base/tpl/show.detail.tpl';
     }
 
     /**
