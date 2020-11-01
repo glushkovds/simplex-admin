@@ -4,6 +4,7 @@ namespace Simplex\Admin\Base;
 
 
 use Simplex\Admin\Base;
+use Simplex\Admin\Fields\Helper;
 use Simplex\Admin\Page;
 use Simplex\Admin\Plug\Alert;
 use Simplex\Core\DB;
@@ -72,11 +73,7 @@ class Struct extends Base
             ";
             $rows = DB::assoc($q);
             foreach ($rows as $row) {
-                $class = $row['class'];
-                if (strpos($class, '\\') === false) {
-                    $class = "Simplex\Admin\Fields\\$class";
-                }
-                $field = new $class($row);
+                $field = Helper::create($row);
                 $field->form = 'main';
                 $value = $field->getPost(true, 'main');
                 $value = preg_replace("@^'(.+)'$@", '$1', $value);

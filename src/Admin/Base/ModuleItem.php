@@ -4,6 +4,7 @@ namespace Simplex\Admin\Base;
 
 
 use Simplex\Admin\Base;
+use Simplex\Admin\Fields\Helper;
 use Simplex\Admin\Page;
 use Simplex\Admin\Plug\Editor;
 use Simplex\Core\DB;
@@ -56,11 +57,7 @@ class ModuleItem extends Base
                 foreach ($rows[''] as $row) {
                     if ($row['class']) {
                         $params = unserialize($row['table_params']);
-                        $class = $row['class'];
-                        if (strpos($class, '\\') === false) {
-                            $class = "Simplex\Admin\Fields\\$class";
-                        }
-                        $field = new $class($row);
+                        $field = Helper::create($row);
                         $field->value = isset($params[$row['name']]) ? $params[$row['name']] : $field->defaultValue;
                         $fields[] = $field;
                     }

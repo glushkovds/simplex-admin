@@ -2,6 +2,7 @@
 
 namespace Simplex\Admin;
 
+use Simplex\Admin\Fields\Helper;
 use Simplex\Admin\Plug\Alert;
 use Simplex\Core\DB;
 use Simplex\Core\DB\Fields\Field;
@@ -463,11 +464,7 @@ class Base
                 if (!empty($field['params']['main']['pk'])) {
                     $pkName = $field['name'];
                 }
-                $class = $field['class'];
-                if (strpos($class, '\\') === false) {
-                    $class = "Simplex\Admin\Fields\\$class";
-                }
-                $this->addField(new $class($field));
+                $this->addField(Helper::create($field));
             }
 
             foreach ($this->fields as $field) {
@@ -539,12 +536,12 @@ class Base
 
                 if (isset($params[$group_id])) {
                     foreach ($params[$group_id] as $param) {
-                        $field = new $param['class']($param);
+                        $field = Helper::create($param);
                         $field->form = $group['name'];
                         $this->params[$group['pos']][$group_id]['fields'][$param['name']] = $field;
                     }
                 } elseif ($group['class']) {
-                    $field = new $group['class']($group);
+                    $field = Helper::create($group);
                     $this->params[$group['pos']][$group_id]['field'] = $field;
                 }
             }
