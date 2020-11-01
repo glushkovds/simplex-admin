@@ -4,7 +4,7 @@ use \Simplex\Admin\Page;
 
 //PlugJQuery::jquery();
 \App\Plugins\Jquery\Jquery::fancybox();
-\Simplex\Admin\Plug\Alert::init();
+\Simplex\Admin\Plugins\Alert\Alert::init();
 
 // GLOBAL MANDATORY STYLES
 Page::coreCss('/theme/css/global/font-awesome.min.css');

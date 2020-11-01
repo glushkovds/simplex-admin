@@ -4,7 +4,7 @@ use \Simplex\Admin\Page;
 
 //PlugJQuery::jquery();
 \App\Plugins\Jquery\Jquery::fancybox();
-\Simplex\Admin\Plug\Alert::init();
+\Simplex\Admin\Plugins\Alert\Alert::init();
 
 // GLOBAL MANDATORY STYLES
 Page::css('//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=cyrillic,latin');
@@ -252,7 +252,7 @@ Page::coreCss('/theme/css/default.css');
                 <?php Page::position('breadcrumbs') ?>
             </div>
 
-            <?php \Simplex\Admin\Plug\Alert::output() ?>
+            <?php \Simplex\Admin\Plugins\Alert\Alert::output() ?>
 
             <?php Page::position('content-before') ?>
             <?php Page::content() ?>
