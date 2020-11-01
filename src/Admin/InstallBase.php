@@ -2,7 +2,7 @@
 
 namespace Simplex\Admin;
 
-use Simplex\Admin\Plug\Alert;
+use Simplex\Admin\Plugins\Alert\Alert;;
 use Simplex\Core\DB;
 
 abstract class InstallBase {

@@ -4,7 +4,7 @@
 namespace Simplex\Admin;
 
 
-use Simplex\Admin\Plug\Log;
+use Simplex\Admin\Plugins\Log\Log;;
 use Simplex\Core\DB;
 
 class Auth extends \Simplex\Core\Auth

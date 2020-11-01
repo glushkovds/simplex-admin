@@ -3,7 +3,7 @@
 namespace Simplex\Admin\Modules\Install;
 
 use Simplex\Admin\InstallBase;
-use Simplex\Admin\Plug\Alert;
+use Simplex\Admin\Plugins\Alert\Alert;;
 use Simplex\Core\ModuleBase;
 
 /**

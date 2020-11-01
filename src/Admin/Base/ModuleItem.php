@@ -6,7 +6,7 @@ namespace Simplex\Admin\Base;
 use Simplex\Admin\Base;
 use Simplex\Admin\Fields\Helper;
 use Simplex\Admin\Page;
-use Simplex\Admin\Plug\Editor;
+use Simplex\Admin\Plugins\Editor\Editor;;
 use Simplex\Core\DB;
 
 class ModuleItem extends Base

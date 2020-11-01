@@ -2,7 +2,7 @@
 
 namespace Simplex\Admin\Modules\Account;
 
-use Simplex\Admin\Plug\Alert;
+use Simplex\Admin\Plugins\Alert\Alert;;
 use Simplex\Core\DB;
 use Simplex\Core\ModuleBase;
 use Simplex\Core\User;

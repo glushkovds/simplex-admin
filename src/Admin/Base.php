@@ -2,8 +2,11 @@
 
 namespace Simplex\Admin;
 
+use Simplex\Admin\Fields\FieldString;
 use Simplex\Admin\Fields\Helper;
-use Simplex\Admin\Plug\Alert;
+use Simplex\Admin\Plugins\Alert\Alert;;
+
+use Simplex\Admin\Plugins\Pagecontrol\Pagecontrol;
 use Simplex\Core\DB;
 use Simplex\Core\DB\Fields\Field;
 use Simplex\Core\DB\Fields\FieldInt;
@@ -389,7 +392,7 @@ class Base
         }
 
         $this->p_on = $this->isHierarchy ? 200 : $this->p_on;
-        $pagecontrol = new AdminPlugPageControl($this->p, $this->p_on, $cnt);
+        $pagecontrol = new Pagecontrol($this->p, $this->p_on, $cnt);
 
         $q = $this->getQuerySelect();
 //        echo $q;

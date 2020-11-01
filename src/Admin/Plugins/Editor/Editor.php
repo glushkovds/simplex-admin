@@ -1,6 +1,6 @@
 <?php
 
-namespace Simplex\Admin\Plug;
+namespace Simplex\Admin\Plugins\Editor;
 
 
 use Simplex\Core\Page;

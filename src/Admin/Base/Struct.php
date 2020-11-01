@@ -6,7 +6,7 @@ namespace Simplex\Admin\Base;
 use Simplex\Admin\Base;
 use Simplex\Admin\Fields\Helper;
 use Simplex\Admin\Page;
-use Simplex\Admin\Plug\Alert;
+use Simplex\Admin\Plugins\Alert\Alert;;
 use Simplex\Core\DB;
 
 class Struct extends Base

@@ -1,6 +1,9 @@
 <?php
 
-class AdminPlugPageControl {
+namespace Simplex\Admin\Plugins\Pagecontrol;
+
+class Pagecontrol
+{
 
     private $p = 0;
     private $p_on = 0;
@@ -10,7 +13,8 @@ class AdminPlugPageControl {
     private $p_on_show = false;
     public $p_count_max = 11;
 
-    public function __construct($p, $p_on, $count, $link = '?p={p}', $p_on_show = false) {
+    public function __construct($p, $p_on, $count, $link = '?p={p}', $p_on_show = false)
+    {
         $this->p = abs($p);
         $this->p_on = abs($p_on);
         $this->count = abs($count);
@@ -18,11 +22,12 @@ class AdminPlugPageControl {
         if ($this->p + 1 > $this->p_count) {
             $this->p_count++;
         }
-        $this->link = (string) $link;
-        $this->p_on_show = (bool) $p_on_show;
+        $this->link = (string)$link;
+        $this->p_on_show = (bool)$p_on_show;
     }
 
-    public function content() {
+    public function content()
+    {
         if ($this->p_count > 1) {
             if ($this->p_count > $this->p_count_max) {
                 $p_max_count = $this->p_count_max - 5;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Simplex\Admin\Plug;
+namespace Simplex\Admin\Plugins\Alert;
 
 
 class Alert {
@@ -141,7 +141,7 @@ class Alert {
                 $txt = "<ul><li>" . implode("</li><li>", self::$s[$page][$section]) . "</li></ul>";
             }
             if ($txt) {
-                include dirname(__FILE__) . '/Alert/alert.tpl';
+                include dirname(__FILE__) . '/alert.tpl';
                 self::$s[$page][$section] = array();
             }
         }
