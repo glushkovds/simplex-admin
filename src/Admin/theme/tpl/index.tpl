@@ -7,6 +7,7 @@ use \Simplex\Admin\Page;
 \Simplex\Admin\Plug\Alert::init();
 
 // GLOBAL MANDATORY STYLES
+Page::css('//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=cyrillic,latin');
 Page::coreCss('/theme/css/global/font-awesome.min.css');
 Page::coreCss('/theme/css/global/simple-line-icons.min.css');
 Page::coreCss('/theme/css/global/bootstrap.min.css');
