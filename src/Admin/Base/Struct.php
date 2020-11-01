@@ -72,7 +72,11 @@ class Struct extends Base
             ";
             $rows = DB::assoc($q);
             foreach ($rows as $row) {
-                $field = new $row['class']($row);
+                $class = $row['class'];
+                if (strpos($class, '\\') === false) {
+                    $class = "Simplex\Admin\Fields\\$class";
+                }
+                $field = new $class($row);
                 $field->form = 'main';
                 $value = $field->getPost(true, 'main');
                 $value = preg_replace("@^'(.+)'$@", '$1', $value);

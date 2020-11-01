@@ -463,8 +463,11 @@ class Base
                 if (!empty($field['params']['main']['pk'])) {
                     $pkName = $field['name'];
                 }
-//                print_r($field['params']['main']);
-                $this->addField(new $field['class']($field));
+                $class = $field['class'];
+                if (strpos($class, '\\') === false) {
+                    $class = "Simplex\Admin\Fields\\$class";
+                }
+                $this->addField(new $class($field));
             }
 
             foreach ($this->fields as $field) {

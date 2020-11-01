@@ -50,7 +50,11 @@ class Component extends Base
             foreach ($rows[''] as $row) {
                 if ($row['class']) {
                     $params = unserialize($row['table_params']);
-                    $field = new $row['class']($row);
+                    $class = $row['class'];
+                    if (strpos($class, '\\') === false) {
+                        $class = "Simplex\Admin\Fields\\$class";
+                    }
+                    $field = new $class($row);
                     $field->value = isset($params[$row['name']]) ? $params[$row['name']] : $field->defaultValue;
                     $fields[] = $field;
                 }

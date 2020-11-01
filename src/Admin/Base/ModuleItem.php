@@ -8,17 +8,20 @@ use Simplex\Admin\Page;
 use Simplex\Admin\Plug\Editor;
 use Simplex\Core\DB;
 
-class ModuleItem extends Base {
+class ModuleItem extends Base
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         Page::js('/admin/base/js/moduleitem.js');
         $this->actionHandlers['module_param'] = array('method' => 'moduleParam');
     }
 
-    protected function moduleParam() {
-        $moduleId = (int) @$_GET['module_id'];
-        $itemId = (int) @$_GET['item_id'];
+    protected function moduleParam()
+    {
+        $moduleId = (int)@$_GET['module_id'];
+        $itemId = (int)@$_GET['item_id'];
 
         $q = "SELECT * FROM module WHERE module_id = $moduleId";
         $module = DB::result($q);
@@ -53,7 +56,11 @@ class ModuleItem extends Base {
                 foreach ($rows[''] as $row) {
                     if ($row['class']) {
                         $params = unserialize($row['table_params']);
-                        $field = new $row['class']($row);
+                        $class = $row['class'];
+                        if (strpos($class, '\\') === false) {
+                            $class = "Simplex\Admin\Fields\\$class";
+                        }
+                        $field = new $class($row);
                         $field->value = isset($params[$row['name']]) ? $params[$row['name']] : $field->defaultValue;
                         $fields[] = $field;
                     }
@@ -105,10 +112,11 @@ class ModuleItem extends Base {
         echo json_encode($positions);
     }
 
-    protected function getParams() {
+    protected function getParams()
+    {
         $params = parent::getParams();
         if (!empty($_POST['module_id'])) {
-            $moduleId = (int) $_POST['module_id'];
+            $moduleId = (int)$_POST['module_id'];
             $q = "
                 select p.name name, p.label label, f.class
                 from module_param p
