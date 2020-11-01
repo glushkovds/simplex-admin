@@ -1,11 +1,24 @@
 <?php
 
-class AdminModInstall extends SFModBase {
+namespace Simplex\Admin\Modules\Install;
+
+use Simplex\Admin\InstallBase;
+use Simplex\Admin\Plug\Alert;
+use Simplex\Core\ModuleBase;
+
+/**
+ * Class Install
+ * @package Simplex\Admin\Modules\Install
+ *
+ * WIP. requires not implemented plugins
+ *
+ */
+class Install extends ModuleBase {
 
     private $installDir = '';
 
     protected function content() {
-        AdminPlugAlert::output();
+        Alert::output();
         if (!empty($_GET['installdir'])) {
             $this->installDir = urldecode($_GET['installdir']);
         }
@@ -25,20 +38,20 @@ class AdminModInstall extends SFModBase {
                 if (isset($_GET['confirm'])) {
                     $success = $installer->install();
                     if ($success) {
-                        $text = $installer->type == SFAdminInstallBase::TYPE_EXT ? "Расширение $installer->destDir успешно установлено" : "Плагин $installer->destDir успешно установлен";
+                        $text = $installer->type == InstallBase::TYPE_EXT ? "Расширение $installer->destDir успешно установлено" : "Плагин $installer->destDir успешно установлен";
                         PlugFS::rmDir($this->installDir);
-                        AdminPlugAlert::success($text, './');
+                        Alert::success($text, './');
                     } else {
-                        AdminPlugAlert::error('Ошибка! Установка не удалась в процессе установки', './');
+                        Alert::error('Ошибка! Установка не удалась в процессе установки', './');
                     }
                 }
                 include 'tpl/confirm.tpl';
                 return;
             } else {
-                AdminPlugAlert::error('Ошибка! В инсталляторе не указан адрес, куда устанавливать ($destDir)');
+                Alert::error('Ошибка! В инсталляторе не указан адрес, куда устанавливать ($destDir)');
             }
         } else {
-            AdminPlugAlert::error('Ошибка! Не удалось найти инсталлятор');
+            Alert::error('Ошибка! Не удалось найти инсталлятор');
         }
         PlugFS::rmDir($this->installDir);
         header("location: ./");
@@ -89,7 +102,7 @@ class AdminModInstall extends SFModBase {
             $success = mkdir($dir);
         }
         if (!$success) {
-            AdminPlugAlert::error('Ошибка! Невозможно создать root-папку ' . $dir, './');
+            Alert::error('Ошибка! Невозможно создать root-папку ' . $dir, './');
         }
         return $success ? $dir : false;
     }
@@ -98,17 +111,17 @@ class AdminModInstall extends SFModBase {
         $root = $this->getTmpDir();
         $dir = $root . '/' . time();
         if (!mkdir($dir)) {
-            AdminPlugAlert::error('Ошибка! Невозможно создать папку установщика ' . $dir, './');
+            Alert::error('Ошибка! Невозможно создать папку установщика ' . $dir, './');
         }
         $zipFile = $dir . '/' . $uploadedFile['name'];
         if (move_uploaded_file($uploadedFile['tmp_name'], $zipFile)) {
             if (PlugZip::unzip($zipFile)) {
                 return $dir;
             } else {
-                AdminPlugAlert::error('Ошибка! Невозможно распаковать архив ' . $zipFile, './');
+                Alert::error('Ошибка! Невозможно распаковать архив ' . $zipFile, './');
             }
         } else {
-            AdminPlugAlert::error('Ошибка! Невозможно записать архив установщика в папку ' . $dir, './');
+            Alert::error('Ошибка! Невозможно записать архив установщика в папку ' . $dir, './');
         }
     }
 

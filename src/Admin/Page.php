@@ -91,7 +91,11 @@ class Page
             $rows = DB::assoc($q);
             foreach ($rows as $row) {
                 if (empty($row['menu_id']) || (int)$row['menu_id'] == $curmenu['menu_id']) {
-                    $mod = new $row['class']($row);
+                    $class = $row['class'];
+                    if (strpos($class, '\\') === false) {
+                        $class = "Simplex\Admin\Modules\{$class}\{$class}";
+                    }
+                    $mod = new $class($row);
                     self::$positions[$row['posname']][] = $mod->execute();
                 }
             }

@@ -1,11 +1,18 @@
 <?php
 
-class AdminModBreadCrumbs extends SFModBase {
+namespace Simplex\Admin\Modules\Breadcrumbs;
+
+use Simplex\Core\Container;
+use Simplex\Core\ModuleBase;
+
+class Breadcrumbs extends ModuleBase
+{
 
     protected $name = 'breadcrumbs';
 
-    public function content() {
-        $crumbs = SFAdminCore::crumbs();
+    public function content()
+    {
+        $crumbs = Container::getCore()::crumbs();
 
         if (count($crumbs) > 0) {
             $links = array();

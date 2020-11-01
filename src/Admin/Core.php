@@ -53,7 +53,6 @@ class Core
             ORDER BY npp, menu_id
         ";
         $rows = DB::assoc($q);
-print_r(DB::assoc('SHOW TABLES'));die;
         foreach ($rows as $row) {
             self::$menu_tree[(int)$row['menu_pid']][(int)$row['menu_id']] = $row;
             self::$menu_by_id[(int)$row['menu_id']] = $row;
