@@ -3,6 +3,8 @@
 namespace Simplex\Admin\Fields;
 
 
+use Simplex\Admin\Plugins\Editor\Editor;
+
 class FieldText extends Field
 {
 
@@ -20,15 +22,15 @@ class FieldText extends Field
 
     public function loadUI($onForm = false)
     {
-        if ($onForm && class_exists('PlugEditor')) {
+        if ($onForm) {
             if ($this->readonly) {
-                PlugEditor::tinymce('readonly', 'sf-editor-readonly');
+                Editor::tinymce('readonly', 'sf-editor-readonly');
             }
             if ('mini' == $this->editor) {
-                PlugEditor::tinymce('mini', 'sf-editor-mini');
+                Editor::tinymce('mini', 'sf-editor-mini');
             }
             if ('full' == $this->editor) {
-                PlugEditor::tinymce('full', 'sf-editor-full');
+                Editor::tinymce('full', 'sf-editor-full');
             }
         }
     }
@@ -36,9 +38,14 @@ class FieldText extends Field
     public function input($value)
     {
         if ($this->readonly) {
-            return '<textarea class="form-control sf-editor-readonly" rows="4" cols="20"' . (empty($this->placeholder) ? '' : ' placeholder="' . $this->placeholder . '"') . ' readonly>' . htmlspecialchars($value) . '</textarea>';
+            return '<textarea class="form-control sf-editor-readonly" rows="4" cols="20"'
+                . (empty($this->placeholder) ? '' : ' placeholder="' . $this->placeholder . '"')
+                . ' readonly>' . htmlspecialchars($value) . '</textarea>';
         }
-        return '<textarea class="form-control' . ($this->editor ? ' sf-editor-' . $this->editor : '') . '" name="' . $this->inputName() . '" rows="4" cols="20"' . (empty($this->placeholder) ? '' : ' placeholder="' . $this->placeholder . '"') . '>' . htmlspecialchars($value) . '</textarea>';
+        return '<textarea class="form-control' . ($this->editor ? ' sf-editor-' . $this->editor : '')
+            . '" name="' . $this->inputName() . '" rows="4" cols="20"'
+            . (empty($this->placeholder) ? '' : ' placeholder="' . $this->placeholder . '"')
+            . '>' . htmlspecialchars($value) . '</textarea>';
     }
 
 }

@@ -3,27 +3,23 @@
 namespace Simplex\Admin\Plugins\Editor;
 
 
-use Simplex\Core\Page;
-use Simplex\Admin\Page as AdminPage;
+use Simplex\Admin\Core;
+use Simplex\Core\Container;
 
 /**
  * Editor class
  *
  * Get access to javascript WYSIWYG Editors
  *
- * @author Evgeny Shilov <evgeny@internet-menu.ru>
- * @version 1.0
  */
-class Editor {
+class Editor
+{
 
     public static $inited = array();
 
-    public static function tinymce($type, $css_class = '') {
-        if (SF_INADMIN) {
-            AdminPage::js('/plug/editor/tinymce/tiny_mce.js', 10);
-        } else {
-            Page::js('/plug/editor/tinymce/tiny_mce.js', 10);
-        }
+    public static function tinymce($type, $css_class = '')
+    {
+        Container::getPage()::js(Core::webVendorPath() . '/Plugins/Editor/tinymce/tiny_mce.js', 10);
 
         if (!empty(self::$inited[$type])) {
             return;
@@ -60,7 +56,7 @@ class Editor {
             skin_variant : "silver",
 
             // Example content CSS (should be your site CSS)
-            content_css : "/theme/default/css/editor.css?hash='.md5(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/theme/default/css/editor.css')).'",
+            content_css : "/theme/default/css/editor.css?hash=' . md5(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/theme/default/css/editor.css')) . '",
 
             // Drop lists for link/image/media/template dialogs
             template_external_list_url : "js/template_list.js",
@@ -118,7 +114,7 @@ class Editor {
             skin_variant : "silver",
 
             // Example content CSS (should be your site CSS)
-            content_css : "/theme/default/css/editor.css?hash='.md5(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/theme/default/css/editor.css')).'",
+            content_css : "/theme/default/css/editor.css?hash=' . md5(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/theme/default/css/editor.css')) . '",
 
             // Drop lists for link/image/media/template dialogs
             template_external_list_url : "js/template_list.js",
@@ -163,7 +159,7 @@ class Editor {
             skin_variant : "silver",
 
             // Example content CSS (should be your site CSS)
-            content_css : "/theme/default/css/editor.css?hash='.md5(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/theme/default/css/editor.css')).'",
+            content_css : "/theme/default/css/editor.css?hash=' . md5(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/theme/default/css/editor.css')) . '",
 
             // Drop lists for link/image/media/template dialogs
             template_external_list_url : "js/template_list.js",

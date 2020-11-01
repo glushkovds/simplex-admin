@@ -45,10 +45,10 @@ $showRightCol |= (bool) $rightPortletsHTML;
             <div class="portlet ">
                 <div class="portlet-title">
                     <div class="caption">
-                        <?php if (SFAdminCore::menuCurItem('icon')): ?>
-                            <i class="icon-<?= SFAdminCore::menuCurItem('icon') ?>"></i>
+                        <?php if (Simplex\Admin\Core::menuCurItem('icon')): ?>
+                            <i class="icon-<?= Simplex\Admin\Core::menuCurItem('icon') ?>"></i>
                         <?php endif ?>
-                        <?= SFAdminCore::menuCurItem('name') ?> &mdash; <?= $title ?>
+                        <?= Simplex\Admin\Core::menuCurItem('name') ?> &mdash; <?= $title ?>
                     </div>
                 </div>
                 <div class="portlet-body form">
@@ -108,7 +108,7 @@ $showRightCol |= (bool) $rightPortletsHTML;
                                                         <?php foreach ($this->params['left'] as $param): ?>
                                                             <?php if (isset($param['field'])): ?>
                                                                 <?php $field = $param['field'] ?>
-                                                                <?php Field::setFieldValue($field, $group, $params, $row) ?>
+                                                                <?php \Simplex\Admin\Fields\Field::setFieldValue($field, $group, $params, $row) ?>
                                                                 <?php include 'form.field.tpl' ?>
                                                             <?php endif ?>
                                                         <?php endforeach ?>
@@ -129,7 +129,7 @@ $showRightCol |= (bool) $rightPortletsHTML;
                                                     <div class="">
                                                         <div class="form-body">
                                                             <?php foreach ($group['fields'] as $field): ?>
-                                                                <?php Field::setFieldValue($field, $group, $params, $row) ?>
+                                                                <?php \Simplex\Admin\Fields\Field::setFieldValue($field, $group, $params, $row) ?>
                                                                 <?php include 'form.field.tpl' ?>
                                                             <?php endforeach ?>
                                                         </div>
@@ -177,7 +177,7 @@ $showRightCol |= (bool) $rightPortletsHTML;
                                         <?php foreach ($this->params['right'] as $param): ?>
                                             <?php if (isset($param['field'])): ?>
                                                 <?php $field = $param['field'] ?>
-                                                <?php @Field::setFieldValue($field, $group, $params, $row) ?>
+                                                <?php @\Simplex\Admin\Fields\Field::setFieldValue($field, $group, $params, $row) ?>
                                                 <?php include 'form.field.tpl' ?>
                                             <?php endif ?>
                                         <?php endforeach ?>
@@ -198,7 +198,7 @@ $showRightCol |= (bool) $rightPortletsHTML;
                                     <div class="">
                                         <div class="form-body">
                                             <?php foreach ($group['fields'] as $field): ?>
-                                                <?php Field::setFieldValue($field, $group, $params, $row) ?>
+                                                <?php \Simplex\Admin\Fields\Field::setFieldValue($field, $group, $params, $row) ?>
                                                 <?php include 'form.field.tpl' ?>
                                             <?php endforeach ?>
                                         </div>

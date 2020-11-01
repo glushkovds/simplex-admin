@@ -7,8 +7,8 @@ $colRowActionsWidth = 14 + 32 * $this->rowActionsCnt;
 <div class="portlet">
     <div class="portlet-title">
         <div class="caption">
-            <?php if (SFAdminCore::menuCurItem('icon')): ?>
-                <i class="icon-<?php echo SFAdminCore::menuCurItem('icon') ?>"></i>
+            <?php if (Simplex\Admin\Core::menuCurItem('icon')): ?>
+                <i class="icon-<?php echo Simplex\Admin\Core::menuCurItem('icon') ?>"></i>
             <?php endif ?>
             <?php echo $this->title ?>
         </div>

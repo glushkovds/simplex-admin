@@ -25,6 +25,9 @@ class Core
 
     }
 
+    /**
+     * @return string like /vendor/glushkovds/simplex-admin/src/Admin
+     */
     public static function webVendorPath()
     {
         return str_replace(SF_ROOT_PATH, '', __DIR__);

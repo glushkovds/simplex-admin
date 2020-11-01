@@ -8,8 +8,8 @@ use Simplex\Admin\Plugins\Alert\Alert;;
 
 use Simplex\Admin\Plugins\Pagecontrol\Pagecontrol;
 use Simplex\Core\DB;
-use Simplex\Core\DB\Fields\Field;
-use Simplex\Core\DB\Fields\FieldInt;
+use Simplex\Admin\Fields\Field;
+use Simplex\Admin\Fields\FieldInt;
 use Simplex\Core\Service;
 
 class Base
