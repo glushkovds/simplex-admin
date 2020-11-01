@@ -2,7 +2,7 @@
 $colRowActionsWidth = 14 + 32 * $this->rowActionsCnt;
 ?>
 
-<?php AdminPlugAlert::output() ?>
+<?php Simplex\Admin\Plugins\Alert\Alert::output() ?>
 
 <div class="portlet">
     <div class="portlet-title">

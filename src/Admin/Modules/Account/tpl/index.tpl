@@ -1,4 +1,4 @@
-<?php AdminPlugAlert::output() ?>
+<?php Simplex\Admin\Plugins\Alert\Alert::output() ?>
 
 <div class="row">
     <div class="col-md-6 ">

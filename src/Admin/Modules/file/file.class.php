@@ -88,7 +88,7 @@ class AdminModFile extends SFModBase {
         $q = "SELECT * FROM file WHERE file_id = $fileId";
         $row = DB::result($q);
         if (!$row) {
-            AdminPlugAlert::error('Файл не найден', './');
+            Simplex\Admin\Plugins\Alert\Alert::error('Файл не найден', './');
         }
         PlugDownload::sendFile("$this->filesDir/{$row['fsname']}", $row['name']);
     }
