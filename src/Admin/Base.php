@@ -11,6 +11,7 @@ use Simplex\Core\DB;
 use Simplex\Admin\Fields\Field;
 use Simplex\Admin\Fields\FieldInt;
 use Simplex\Core\Service;
+use Simplex\Core\User;
 
 class Base
 {
@@ -92,11 +93,11 @@ class Base
         $this->initTableName();
         $this->initTableData();
 
-        $this->canAdd = $this->tableData['priv_add'] ? SFUser::ican((int)$this->tableData['priv_add']) : true;
+        $this->canAdd = $this->tableData['priv_add'] ? User::ican((int)$this->tableData['priv_add']) : true;
         $this->canCopy = $this->canAdd;
-        $this->canEdit = $this->tableData['priv_edit'] ? SFUser::ican((int)$this->tableData['priv_edit']) : true;
+        $this->canEdit = $this->tableData['priv_edit'] ? User::ican((int)$this->tableData['priv_edit']) : true;
         $this->canEditGroup = $this->canEdit;
-        $this->canDelete = $this->tableData['priv_delete'] ? SFUser::ican((int)$this->tableData['priv_delete']) : true;
+        $this->canDelete = $this->tableData['priv_delete'] ? User::ican((int)$this->tableData['priv_delete']) : true;
     }
 
     protected function initTableName()
@@ -181,7 +182,7 @@ class Base
         $rows = DB::assoc($q);
         echo count($rows) ? '<div class="widgets">' : '';
         foreach ($rows as $row) {
-            if (!$row['priv_id'] || SFUser::ican((int)$row['priv_id'])) {
+            if (!$row['priv_id'] || User::ican((int)$row['priv_id'])) {
                 $class = $row['class'];
                 $widget = new $class($row);
                 echo $widget->execute();
@@ -587,15 +588,15 @@ class Base
             }
 
             /* SYSTEM FILTER */
-            if ($field->name == 'priv_id' && !SFUser::ican('dev')) {
+            if ($field->name == 'priv_id' && !User::ican('dev')) {
                 if ($field->isnull) {
-                    $this->where_sys[] = "(" . $this->table . ".priv_id IN(" . join(',', SFUser::privIds()) . ") OR " . $this->table . ".priv_id IS NULL)";
+                    $this->where_sys[] = "(" . $this->table . ".priv_id IN(" . join(',', User::privIds()) . ") OR " . $this->table . ".priv_id IS NULL)";
                 } else {
-                    $this->where_sys[] = "" . $this->table . ".priv_id IN(" . join(',', SFUser::privIds()) . ")";
+                    $this->where_sys[] = "" . $this->table . ".priv_id IN(" . join(',', User::privIds()) . ")";
                 }
             }
-            if ($field->name == 'role_id' && !SFUser::ican('dev')) {
-                $this->where_sys[] = "" . $this->table . ".role_id IN(SELECT role_id FROM user_role WHERE priv_id IN(" . join(',', SFUser::privIds()) . "))";
+            if ($field->name == 'role_id' && !User::ican('dev')) {
+                $this->where_sys[] = "" . $this->table . ".role_id IN(SELECT role_id FROM user_role WHERE priv_id IN(" . join(',', User::privIds()) . "))";
             }
         }
     }
