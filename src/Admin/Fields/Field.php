@@ -3,6 +3,8 @@
 namespace Simplex\Admin\Fields;
 
 
+use Simplex\Core\DB;
+
 class Field
 {
 
