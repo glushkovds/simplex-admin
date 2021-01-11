@@ -53,21 +53,15 @@ class Page
         self::$driver = false;
 
         $menuCurModel = Core::menuCurItem('model');
-
-        $modelNameAr = explode('_', $menuCurModel);
-        $extDir = $modelNameAr[0];
-        $extDriverName = implode('', $modelNameAr) . '.class.php';
-        $extDriverPath = "{$_SERVER['DOCUMENT_ROOT']}/ext/$extDir/admin/$extDriverName";
-        $extDriverClass = 'Admin';
-        foreach ($modelNameAr as $modelNamePart) {
-            $extDriverClass .= ucfirst($modelNamePart);
+        $tableData = null;
+        if ($menuCurModel) {
+            $q = "SELECT * FROM struct_table WHERE name = '$menuCurModel'";
+            $tableData = DB::result($q);
         }
+        $extDriverClass = $tableData['class'] ?? null;
 
-        if (is_file($extDriverPath)) {
-            include_once $extDriverPath;
-            if (class_exists($extDriverClass)) {
-                self::$driver = new $extDriverClass();
-            }
+        if (class_exists($extDriverClass)) {
+            self::$driver = new $extDriverClass();
         }
 
         if (!self::$driver) {
