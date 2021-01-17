@@ -145,7 +145,7 @@ $(document).ready(function () {
         
         $('.table-data-head').css('padding-right', $('<div style="overflow-y:scroll; float: left; opacity: 0; left: -30000px" />').appendTo('body').width());
         if ($('.row-actions:first a').length > 1) {
-            var setWidth = 14 + 31 * $('.row-actions:first a').length;
+            var setWidth = 14 + 32 * $('.row-actions:first a').length;
             if ($('.col-row-actions').width() < setWidth) {
                 $('.col-row-actions').css('width', setWidth);
             }
