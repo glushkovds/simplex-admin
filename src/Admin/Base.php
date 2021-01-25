@@ -2,7 +2,14 @@
 
 namespace Simplex\Admin;
 
+use Simplex\Admin\Fields\FieldAlias;
+use Simplex\Admin\Fields\FieldDateTime;
+use Simplex\Admin\Fields\FieldFile;
+use Simplex\Admin\Fields\FieldImage;
+use Simplex\Admin\Fields\FieldPassword;
+use Simplex\Admin\Fields\FieldPath;
 use Simplex\Admin\Fields\FieldString;
+use Simplex\Admin\Fields\FieldVirtual;
 use Simplex\Admin\Fields\Helper;
 use Simplex\Admin\Plugins\Alert\Alert;;
 
@@ -651,7 +658,7 @@ class Base
         $row = &$this->row;
         $row = array();
         foreach ($this->fields as $index => $field) {
-            if ($field instanceof DB\Fields\FieldVirtual) {
+            if ($field instanceof FieldVirtual) {
                 unset($this->fields[$index]);
             }
         }
@@ -989,10 +996,10 @@ class Base
                 $field_alias = false;
                 $field_path = false;
                 foreach ($this->fields as $field) {
-                    if ($field instanceof DB\Fields\FieldAlias) {
+                    if ($field instanceof FieldAlias) {
                         $field_alias = $field;
                     }
-                    if ($field instanceof DB\Fields\FieldPath) {
+                    if ($field instanceof FieldPath) {
                         $field_path = $field;
                     }
                 }
@@ -1068,7 +1075,7 @@ class Base
             if ($field->isVirtual) {
                 $field->getPOST();
             }
-            $atq = !$field->isVirtual && !$field->readonly || $field instanceof DB\Fields\FieldPath;
+            $atq = !$field->isVirtual && !$field->readonly || $field instanceof FieldPath;
             $post = $field->getPOST();
             if ($atq) {
                 if (empty($post) || $post == 'NULL' || $post == "''") {
@@ -1102,12 +1109,12 @@ class Base
                 if ($field->name == 'params') {
                     $params = $this->getParams();
                     $q .= " " . $field->name . "='" . DB::escape(serialize($params)) . "',";
-                } elseif ($field instanceof DB\Fields\FieldPassword) {
+                } elseif ($field instanceof FieldPassword) {
                     $value = $field->getPOST();
                     if ($value) {
                         $q .= " " . $field->name . "=" . $value . ",";
                     }
-                } elseif ($field instanceof DB\Fields\FieldDateTime) {
+                } elseif ($field instanceof FieldDateTime) {
                     $cinfo = DB::columnInfo($this->table, $field->name);
                     // && 'on update CURRENT_TIMESTAMP' == $cinfo['Extra']
                     if (empty($cinfo['Extra'])) {
@@ -1116,7 +1123,7 @@ class Base
                             $q .= " " . $field->name . "=" . $value . ",";
                         }
                     }
-                } elseif ($field instanceof DB\Fields\FieldFile) {
+                } elseif ($field instanceof FieldFile) {
                     if ($value = trim($field->getPOST(), "'")) {
                         $q .= " `" . $field->name . "`='" . $value . "',";
                     }
@@ -1131,7 +1138,7 @@ class Base
         /*
           echo $q;
           die();
-         * 
+         *
          */
         return $q;
     }
@@ -1206,9 +1213,9 @@ class Base
         }
 
         foreach ($this->fields as $field) {
-            if ($field instanceof DB\Fields\FieldFile) {
+            if ($field instanceof FieldFile) {
                 $dir = 'files';
-                if ($field instanceof DB\Fields\FieldImage) {
+                if ($field instanceof FieldImage) {
                     $dir = 'images';
                 }
                 $q = "SELECT " . $field->name . " FROM " . $this->table . " WHERE " . $this->pk->name . " IN (" . join(',', $ids) . ")";
