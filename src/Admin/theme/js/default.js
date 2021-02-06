@@ -332,7 +332,42 @@ function deleteField(a) {
 
 function openModal(href, callback) {
     $('#modal-ajax').modal();
-    $('#modal-ajax .modal-content').load(href, callback ? callback : null);
+    $('#modal-ajax .modal-content').html('').load(href, function () {
+        $('#modal-ajax .modal-content [type="radio"]').uniform();
+        if (jQuery().datepicker) {
+            $('.form-datepicker').datepicker({
+                format: 'dd.mm.yyyy',
+                autoclose: true,
+                language: 'ru'
+            });
+            $('body').removeClass("modal-open"); // fix bug when inline picker is used in modal
+        }
+        if (jQuery().timepicker) {
+            $('.form-timepicker').timepicker({
+                autoclose: true,
+                minuteStep: 1,
+                showMeridian: false,
+                defaultTime: false
+            });
+            $('.form-timepicker-seconds').timepicker({
+                autoclose: true,
+                minuteStep: 1,
+                showSeconds: true,
+                secondStep: 10,
+                showMeridian: false,
+                defaultTime: false
+            });
+        }
+        if (jQuery().dateRangePicker && $('.date-range-picker').length) {
+            $('.date-picker-wrapper').remove();
+            $('.date-range-picker').dateRangePicker({
+                language: 'ru',
+                separator: ' - ',
+                format: 'DD.MM.YYYY'
+            });
+        }
+        callback && callback();
+    });
 }
 
 function openModalHTML(html) {
