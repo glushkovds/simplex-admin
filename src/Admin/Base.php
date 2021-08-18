@@ -1092,16 +1092,16 @@ class Base
                 $values[] = $post;
             }
         }
-        $q = "INSERT INTO " . $this->table . " (" . implode(', ', $keys) . ") VALUES (" . implode(', ', $values) . ")";
+        $q = "INSERT INTO `" . $this->table . "` (" . implode(', ', $keys) . ") VALUES (" . implode(', ', $values) . ")";
         return $q;
     }
 
     protected function getQueryUpdate()
     {
-        $q = "SELECT * FROM " . $this->table . " WHERE " . $this->pk->name . "=" . (int)$_POST[$this->pk->name];
+        $q = "SELECT * FROM `" . $this->table . "` WHERE " . $this->pk->name . "=" . (int)$_POST[$this->pk->name];
         $row = DB::result($q);
 
-        $q = "UPDATE " . $this->table . " SET";
+        $q = "UPDATE `" . $this->table . "` SET";
         foreach ($this->fields as $field) {
             if ($field->isVirtual) {
                 $field->getPOST();
@@ -1188,7 +1188,7 @@ class Base
     {
         $where = $this->where_sys;
         $where[] = $this->pk->name . "=" . (int)$id;
-        $q = "DELETE FROM " . $this->table . " WHERE " . join(' AND ', $where);
+        $q = "DELETE FROM `" . $this->table . "` WHERE " . join(' AND ', $where);
         DB::query($q);
         return DB::errno() ? DB::errno() . ': ' . DB::error() : '';
     }
