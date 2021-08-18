@@ -131,7 +131,7 @@ class Base
         $keyName = DB::escape(@$_GET['key_name']);
         $keyValue = (int)@$_GET['key_value'];
         $field = $this->fields[$fieldName];
-        $q = "select $field->name from $this->table where $keyName = $keyValue";
+        $q = "select $field->name from `$this->table` where $keyName = $keyValue";
         $row = DB::result($q);
         $success = $field->delete($row[$field->name]);
         if ($success) {
@@ -288,7 +288,7 @@ class Base
         foreach ($this->fks as $field) {
             $fkAdd = '' . $field->fk->table . $field->name . '.' . $field->fk->label . ' ' . $field->name . '_label';
             if ($field->fk->table == $this->table) {
-                $fkAdd = '(SELECT ' . $field->fk->label . ' FROM ' . $field->fk->table . ' t_' . $this->table . ' WHERE ' . $this->pk->name . ' = ' . $this->table . '.' . $field->name . ') ' . $field->name . '_label';
+                $fkAdd = '(SELECT ' . $field->fk->label . ' FROM `' . $field->fk->table . '` t_' . $this->table . ' WHERE ' . $this->pk->name . ' = ' . $this->table . '.' . $field->name . ') ' . $field->name . '_label';
             }
             $ar[] = '' . $this->table . '.' . $field->name;
             $ar[] = $fkAdd;
@@ -308,7 +308,7 @@ class Base
 
     protected function getSelectFrom()
     {
-        $q = "\r\nFROM " . $this->table;
+        $q = "\r\nFROM `" . $this->table . '`';
         foreach ($this->fks as $field) {
             if ($field->fk->table != $this->table) {
                 $q .= "\r\n" . ($field->isnull ? "LEFT " : "") . "JOIN " . $field->fk->table . " " . $field->fk->table . $field->name . " ON " . $field->fk->table . $field->name . "." . $field->fk->key . "=" . $this->table . "." . $field->name;
@@ -622,7 +622,7 @@ class Base
                 DB::query($q);
             }
 
-            $q = "SELECT $field val FROM " . $this->table . " WHERE " . $this->pk->name . "=" . $pk;
+            $q = "SELECT $field val FROM `" . $this->table . "` WHERE " . $this->pk->name . "=" . $pk;
             $row = DB::result($q);
             if (isset($row['val'])) {
                 echo $row['val'] ? 'Да' : 'Нет';
@@ -682,7 +682,7 @@ class Base
         if (!empty($_REQUEST[$this->pk->name])) {
             $pk = (int)$_REQUEST[$this->pk->name];
             $where[] = $this->pk->name . "=" . $pk;
-            $q = "SELECT * FROM " . $this->table . " WHERE " . join(' AND ', $where);
+            $q = "SELECT * FROM `" . $this->table . "` WHERE " . join(' AND ', $where);
             if ($rrow = DB::result($q)) {
                 $row = $rrow;
                 $title = 'Редактировать запись №' . $pk;
@@ -706,7 +706,7 @@ class Base
         if ($isGroup) {
             $title = 'Редактирование нескольких записей';
             $ids = DB::escape($_GET['ids']);
-            $q = "SELECT * FROM $this->table WHERE {$this->pk->name} in (" . $ids . ")";
+            $q = "SELECT * FROM `$this->table` WHERE {$this->pk->name} in (" . $ids . ")";
             $rows = DB::assoc($q);
             foreach ($this->fields as $field) {
                 $vars = array();
@@ -782,7 +782,7 @@ class Base
         if (Core::$isAjax) {
             if (!empty($_REQUEST['field']) && isset($this->fields[$_REQUEST['field']]) && $pk) {
                 $field = $this->fields[$_REQUEST['field']];
-                $q = "UPDATE " . $this->table . " SET " . $field->name . "='' WHERE " . join(' AND ', $where);
+                $q = "UPDATE `" . $this->table . "` SET " . $field->name . "='' WHERE " . join(' AND ', $where);
                 DB::query($q);
                 $field->delete($row[$field->name]);
                 exit();
@@ -823,7 +823,7 @@ class Base
 
     public function copy()
     {
-        $q = "SELECT * FROM $this->table WHERE {$this->pk->name} in ($this->ids)";
+        $q = "SELECT * FROM `$this->table` WHERE {$this->pk->name} in ($this->ids)";
         $rows = DB::assoc($q);
         $fieldNames = array('name', 'title', 'label');
         foreach ($rows as $row) {
@@ -841,7 +841,7 @@ class Base
                     $set[] = "$key = '$value'";
                 }
             }
-            $q = "INSERT INTO $this->table SET " . implode(', ', $set);
+            $q = "INSERT INTO `$this->table` SET " . implode(', ', $set);
             $success = DB::query($q);
             if ($success) {
                 $insertID = DB::insertID();
@@ -874,6 +874,7 @@ class Base
                 }
             }
             echo json_encode($json);
+            return $json['valid'];
         } else {
             return count($errors) ? false : true;
         }
@@ -900,7 +901,7 @@ class Base
         }
 
         if ($hasSetParams) {
-            $q = "SELECT {$this->pk->name} id, params FROM $this->table WHERE {$this->pk->name} in ($ids)";
+            $q = "SELECT {$this->pk->name} id, params FROM `$this->table` WHERE {$this->pk->name} in ($ids)";
             $rows = DB::assoc($q);
             foreach ($rows as $row) {
                 $params = unserialize($row['params']);
@@ -939,13 +940,13 @@ class Base
                 }
                 $_POST = $MY_POST;
 
-                $q = "UPDATE $this->table SET params = '" . serialize($params) . "' WHERE {$this->pk->name} = {$row['id']}";
+                $q = "UPDATE `$this->table` SET params = '" . serialize($params) . "' WHERE {$this->pk->name} = {$row['id']}";
                 $success &= DB::query($q);
             }
         }
 
         if (count($set)) {
-            $q = "UPDATE $this->table SET " . implode(', ', $set) . " WHERE {$this->pk->name} in ($ids)";
+            $q = "UPDATE `$this->table` SET " . implode(', ', $set) . " WHERE {$this->pk->name} in ($ids)";
             $success &= DB::query($q);
         }
 
@@ -1009,7 +1010,7 @@ class Base
                         $where[] = "" . $this->table . "." . $this->pk->name . "=" . (int)$_POST[$this->pk->name];
                         $q = "
                             SELECT " . $this->table . "." . $this->pk->name . ", " . $this->table . "." . $this->pid->name . ", " . $this->table . "." . $field_alias->name . ", t2." . $field_path->name . "
-                            FROM " . $this->table . "
+                            FROM `" . $this->table . "`
                             LEFT JOIN " . $this->table . " t2 ON t2." . $this->pk->name . " = " . $this->table . "." . $this->pid->name . "
                             WHERE " . join(" AND ", $where) . "
                         ";
@@ -1030,7 +1031,7 @@ class Base
                             $where[] = "" . $this->table . "." . $this->pid->name . "=" . $cur[$this->pk->name];
                             $q = "
                                 SELECT " . $this->pk->name . ", " . $field_alias->name . ", " . $field_path->name . "
-                                FROM " . $this->table . "
+                                FROM `" . $this->table . "`
                                 WHERE " . join(" AND ", $where) . "
                             ";
                             $rows = DB::assoc($q);
@@ -1218,7 +1219,7 @@ class Base
                 if ($field instanceof FieldImage) {
                     $dir = 'images';
                 }
-                $q = "SELECT " . $field->name . " FROM " . $this->table . " WHERE " . $this->pk->name . " IN (" . join(',', $ids) . ")";
+                $q = "SELECT " . $field->name . " FROM `" . $this->table . "` WHERE " . $this->pk->name . " IN (" . join(',', $ids) . ")";
                 $rows = DB::assoc($q);
                 foreach ($rows as $row) {
                     if ($row[$field->name] && is_file('../uf/' . $dir . '/' . $field->path . $row[$field->name])) {
@@ -1263,7 +1264,7 @@ class Base
     protected function getRow($id)
     {
         $id = (int)$id;
-        $q = "SELECT * FROM $this->table WHERE {$this->pk->name} = $id";
+        $q = "SELECT * FROM `$this->table` WHERE {$this->pk->name} = $id";
         $row = DB::result($q);
         return $row;
     }
@@ -1276,7 +1277,7 @@ class Base
      */
     protected function getRows(DBWhere $where = null, $withKeys = true)
     {
-        $q = "SELECT * FROM $this->table $where";
+        $q = "SELECT * FROM `$this->table` $where";
         $rows = DB::assoc($q, $withKeys ? $this->pk->name : false);
         return $rows;
     }
