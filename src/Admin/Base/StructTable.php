@@ -11,7 +11,7 @@ class StructTable extends Base {
     
     public function __construct() {
         parent::__construct();
-        Page::js('/admin/base/js/struct.table.js');
+        Page::coreJs('/Base/js/struct.table.js');
     }
 
     protected function portlets($position = 'right') {
