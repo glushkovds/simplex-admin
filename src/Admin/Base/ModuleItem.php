@@ -15,7 +15,7 @@ class ModuleItem extends Base
     public function __construct()
     {
         parent::__construct();
-        Page::js('/admin/base/js/moduleitem.js');
+        Page::coreJs('/Base/js/moduleitem.js');
         $this->actionHandlers['module_param'] = array('method' => 'moduleParam');
     }
 

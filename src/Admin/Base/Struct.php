@@ -15,7 +15,7 @@ class Struct extends Base
     public function __construct()
     {
         parent::__construct();
-        Page::js('/admin/base/js/struct.js');
+        Page::coreJs('/Base/js/struct.js');
 
         $this->actionHandlers['field_param'] = array('method' => 'fieldParam');
         $this->actionHandlers['loadstruct'] = array('method' => 'loadStruct');
