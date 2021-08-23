@@ -156,6 +156,13 @@ class Struct extends Base
         $q = "select * from struct_field";
         $fieldTypes = DB::assoc($q, 'class');
 
+        $fixedFt = [];
+        foreach ($fieldTypes as $k => $v) {
+            $fixedFt[end(explode('\\', $k))] = $v;
+        }
+
+        $fieldTypes = $fixedFt;
+
         $q = "SHOW FULL COLUMNS FROM {$table['name']}";
         $rows = DB::assoc($q);
 //        print_r($rows);
@@ -285,7 +292,7 @@ class Struct extends Base
             ";
             $success &= $s0 = DB::query($q);
             if (!$s0) {
-                Alert::error('<b>' . $q . '</b> &mdash; ' . mysql_error());
+                Alert::error('<b>' . $q . '</b> &mdash; ' . DB::error());
             }
         }
         DB::query($success ? 'commit' : 'rollback');
