@@ -3,8 +3,10 @@
 namespace Simplex\Admin;
 
 
+use Simplex\Core\Container;
 use Simplex\Core\DB;
-use Simplex\Core\User;
+use Simplex\Core\Html\HtmlRequest;
+use Simplex\Core\Html\HtmlResponse;
 
 class Core
 {
@@ -40,6 +42,15 @@ class Core
 
     public static function init()
     {
+
+        if (!Container::isSet('request')) {
+            Container::set('request', new HtmlRequest());
+        }
+
+        if (!Container::isSet('response')) {
+            Container::set('response', new HtmlResponse());
+        }
+
         $url_info = parse_url($_SERVER['REQUEST_URI']);
         self::$path = $url_info['path'];
         self::$uri = array_slice(explode('/', self::$path), 1);
@@ -49,10 +60,26 @@ class Core
             self::$isAjax = true;
         }
 
+        if (static::uri(1) == 'login') {
+            Auth::login(
+                $_REQUEST['login']['login'] ?? null,
+                $_REQUEST['login']['password'] ?? null,
+                isset($_POST['login']['remember']),
+                $_REQUEST['r'] ?? '/admin/'
+            );
+        } elseif (static::uri(1) == 'logout') {
+            Auth::logout();
+        }
+
+        if (!Container::getUser()) {
+            return;
+        }
+
+        $privIds = Container::getUser()->getPrivileges()['ids'] ?? [];
         $q = "
             SELECT menu_id, menu_pid, link, name, model, icon, hidden
             FROM admin_menu
-            WHERE priv_id IN(" . join(',', User::privIds()) . ")
+            WHERE priv_id IN(" . join(',', $privIds) . ")
             ORDER BY npp, menu_id
         ";
         $rows = DB::assoc($q);
@@ -121,18 +148,11 @@ class Core
 
     public static function execute()
     {
-        if (static::uri(1) == 'login') {
-            Auth::login($_REQUEST['login']['login'] ?? null, $_REQUEST['login']['password'] ?? null);
-        }
-        if (User::$id) {
-            if (User::ican('simplex_admin')) {
-                if (self::ajax()) {
-                    Page::content();
-                } else {
-                    include 'theme/tpl/index.tpl';
-                }
+        if (Container::getUser()) {
+            if (self::ajax()) {
+                Page::content();
             } else {
-                include 'theme/tpl/404.tpl';
+                include 'theme/tpl/index.tpl';
             }
         } else {
             $back = $_SERVER['REQUEST_URI'];

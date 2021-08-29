@@ -223,7 +223,7 @@ Page::coreCss('/theme/css/default.css');
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="?logout"><i class="fa fa-key"></i> Выйти</a>
+                        <a href="/admin/logout/"><i class="fa fa-key"></i> Выйти</a>
                     </li>
                 </ul>
             </li>

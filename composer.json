@@ -19,7 +19,8 @@
   "require": {
     "php": ">=7.1.0",
     "ext-gd": "*",
-    "glushkovds/simplex-core": "*"
+    "glushkovds/simplex-core": "*",
+    "glushkovds/simplex-auth": "*"
   },
   "require-dev": {
   },
