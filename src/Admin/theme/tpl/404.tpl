@@ -41,7 +41,7 @@
         </div>
 
         <div class="copyright">
-            2015 &copy; Simplex Admin 2.0
+            2015 - <?php echo date('Y') ?> &copy; Simplex Admin 2.0
         </div>
 
     </body>

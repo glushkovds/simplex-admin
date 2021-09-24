@@ -3,6 +3,7 @@
 namespace Simplex\Admin\Fields;
 
 
+use Simplex\Admin\Plugins\UI\UI;
 use Simplex\Core\File;
 
 class FieldFile extends Field
@@ -39,8 +40,8 @@ class FieldFile extends Field
 
     public function loadUI($onForm = false)
     {
-        if ($onForm && class_exists('AdminPlugUI')) {
-            AdminPlugUI::fileInput();
+        if ($onForm) {
+            UI::fileInput();
         }
     }
 

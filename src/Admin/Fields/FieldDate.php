@@ -3,6 +3,7 @@
 namespace Simplex\Admin\Fields;
 
 
+use Simplex\Admin\Plugins\UI\UI;
 use Simplex\Core\DB;
 
 class FieldDate extends Field
@@ -19,8 +20,8 @@ class FieldDate extends Field
 
     public function loadUI($onForm = false)
     {
-        if ($onForm && class_exists('AdminPlugUI')) {
-            AdminPlugUI::datePicker();
+        if ($onForm) {
+            UI::datePicker();
         }
     }
 
