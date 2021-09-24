@@ -266,7 +266,7 @@ Page::coreCss('/theme/css/default.css');
 <!-- BEGIN FOOTER -->
 <div class="footer">
     <div class="footer-inner">
-        2015 &copy; Simplex Admin 2.0
+        2015 - <?php echo date('Y') ?> &copy; Simplex Admin 2.0
     </div>
     <div class="footer-tools">
                 <span class="go-top">
