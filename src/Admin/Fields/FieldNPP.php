@@ -38,5 +38,10 @@ class FieldNPP extends Field
         }
         return parent::input($value);
     }
+    
+    public function getPOST($simple = false, $group = null)
+    {
+        return $this->e2n && $_POST[$this->name] === '' ? 'NULL' : (int)$_POST[$this->name];
+    }
 
 }

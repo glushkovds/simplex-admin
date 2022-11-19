@@ -65,7 +65,7 @@ class Page
         }
 
         if (!self::$driver) {
-            if (in_array($menuCurModel, array('struct_param', 'struct_data', 'module_param', 'struct_table'))) {
+            if (in_array($menuCurModel, array('struct_param', 'struct_data', 'module_param', 'struct_table', 'content_template_param'))) {
                 self::$driver = new Struct();
             } elseif (in_array($menuCurModel, array('module_item'))) {
                 self::$driver = new ModuleItem();
