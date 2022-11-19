@@ -19,7 +19,8 @@ class Editor
 
     public static function tinymce($type, $css_class = '')
     {
-        Container::getPage()::js(Core::webVendorPath() . '/Plugins/Editor/tinymce/tiny_mce.js', 10);
+        $tinyMcePath = Core::webVendorPath() . '/Plugins/Editor/tinymce/tiny_mce.js';
+        Container::getPage()::js($tinyMcePath, 10);
 
         if (!empty(self::$inited[$type])) {
             return;
@@ -31,7 +32,7 @@ class Editor
             if(typeof tinyMCE === "undefined"){
                 var s = document.createElement("script");
                 s.type = "text/javascript";
-                s.src = "/plug/editor/tinymce/tiny_mce.js";
+                s.src = "' . $tinyMcePath . '";
                 $("head").append(s);
             }
           tinyMCE.init({
@@ -73,7 +74,7 @@ class Editor
             if(typeof tinyMCE === "undefined"){
                 var s = document.createElement("script");
                 s.type = "text/javascript";
-                s.src = "/plug/editor/tinymce/tiny_mce.js";
+                s.src = "' . $tinyMcePath . '";
                 $("head").append(s);
             }
           tinyMCE.init({
@@ -131,7 +132,7 @@ class Editor
             if(typeof tinyMCE === "undefined"){
                 var s = document.createElement("script");
                 s.type = "text/javascript";
-                s.src = "/plug/editor/tinymce/tiny_mce.js";
+                s.src = "' . $tinyMcePath . '";
                 $("head").append(s);
             }
           tinyMCE.init({
