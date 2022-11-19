@@ -7,6 +7,7 @@ use \Simplex\Admin\Page;
 \Simplex\Admin\Plugins\Alert\Alert::init();
 
 // GLOBAL MANDATORY STYLES
+Page::css('//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all');
 Page::coreCss('/theme/css/global/font-awesome.min.css');
 Page::coreCss('/theme/css/global/simple-line-icons.min.css');
 Page::coreCss('/theme/css/global/bootstrap.min.css');
@@ -21,7 +22,8 @@ Page::coreCss('/theme/css/conquer/default.css');
 Page::coreCss('/theme/css/conquer/login.css');
 
 Page::coreCss('/theme/css/default.css');
-Page::coreJs('/theme/js/jquery-1.6.1.min.js');
+Page::coreJs('/theme/js/conquer/jquery-1.11.0.min.js', 0);
+Page::coreJs('/theme/js/conquer/jquery-migrate-1.2.1.min.js', 0);
 Page::coreJs('/theme/js/default.js');
 
 ?>

@@ -22,7 +22,8 @@
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link type="text/css" rel="stylesheet" href="/admin/theme/css/default.css" />
-        <script type="text/javascript" src="/admin/theme/js/jquery-1.6.1.min.js"></script>
+        <script type="text/javascript" src="/admin/theme/js/conquer/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/admin/theme/js/conquer/jquery-migrate-1.2.1.min.js"></script>
         <script type="text/javascript" src="/admin/theme/js/default.js"></script>
     </head>
 
