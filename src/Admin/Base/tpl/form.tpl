@@ -31,7 +31,7 @@ $showRightCol |= (bool) $rightPortletsHTML;
     <input type="hidden" id="info-key-name" value="<?= @$this->pk->name ?>" />
     <input type="hidden" id="info-key-value" value="<?= (int) @$row[$this->pk->name] ?>" />
     <input type="hidden" id="group-ids" name="group_ids" value="<?= @$ids ?>" />
-    
+
     <?php
     foreach ($this->fields as $field) {
         if ($field->hidden) {
@@ -139,7 +139,7 @@ $showRightCol |= (bool) $rightPortletsHTML;
                                         <?php endif ?>
                                     <?php endforeach ?>
                                 <?php endif; ?>
-                                
+
                             </div>
 
                         </div>
@@ -147,15 +147,16 @@ $showRightCol |= (bool) $rightPortletsHTML;
                     </div>
                 </div>
             </div>
-            
+
             <?php $this->portlets('left') ?>
-            
+
         </div>
 
         <?php if ($showRightCol): ?>
             <div class="col-md-4">
                 <?php if (count($this->params['right'])): ?>
                     <?php
+                    $group = null;
                     $hasWithoutGroup = false;
                     foreach ($this->params['right'] as $param) {
                         if (isset($param['field'])) {
@@ -229,10 +230,10 @@ $showRightCol |= (bool) $rightPortletsHTML;
             </div>
         </div>
     </div>
-    
+
 </form>
 
-<div aria-hidden="true" role="basic" tabindex="-1" id="modal-ajax" class="modal fade">								
+<div aria-hidden="true" role="basic" tabindex="-1" id="modal-ajax" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div style="text-align: center; padding: 50px 0">
