@@ -11,7 +11,7 @@ use Simplex\Admin\Fields\FieldPath;
 use Simplex\Admin\Fields\FieldString;
 use Simplex\Admin\Fields\FieldVirtual;
 use Simplex\Admin\Fields\Helper;
-use Simplex\Admin\Plugins\Alert\Alert;;
+use Simplex\Admin\Plugins\Alert\Alert;
 
 use Simplex\Admin\Plugins\Pagecontrol\Pagecontrol;
 use Simplex\Core\DB;
@@ -138,7 +138,7 @@ class Base
             $q = "UPDATE " . $this->table . " SET " . $field->name . "='' WHERE $keyName = $keyValue";
             $success = DB::query($q);
         }
-        echo json_encode(array('success' => $success));
+        echo json_encode(['success' => $success]);
     }
 
     public function content()

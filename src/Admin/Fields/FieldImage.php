@@ -34,11 +34,8 @@ class FieldImage extends FieldFile
 
     public function input($value)
     {
-
         // http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image
-        // /admin/theme/img/noimage.200x150.gif
-
-        $thumb = $thumbNoImage = "/admin/theme/img/noimage.90x90.gif";
+        $thumb = $thumbNoImage = "/vendor/glushkovds/simplex-admin/src/Admin/theme/img/noimage.90x90.gif";
         $source = '';
         $imgPath = 'uf/images/' . $this->path . 'preview/' . $value;
         if (is_file("../$imgPath")) {
@@ -83,6 +80,7 @@ class FieldImage extends FieldFile
     public function getPOST($simple = false, $group = null)
     {
         $name = isset($_REQUEST[$this->name . '_old']) ? $_REQUEST[$this->name . '_old'] : '';
+//        var_dump($name);die;
         $img = new Image($this->path, $this->sizes);
         $img->loadPost($this->name);
         $nameNew = $img->getName();
