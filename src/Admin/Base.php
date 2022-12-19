@@ -146,7 +146,6 @@ class Base
         $row = Core::menuCurItem();
 
         if ($row['model']) {
-
             $this->initTable();
 
             $action = isset($_GET['action']) ? $_GET['action'] : '';
@@ -212,7 +211,6 @@ class Base
 
     protected function afterChangeENUM($field, $row, $newValue, $success)
     {
-
     }
 
     protected function changeENUM($withRedirect = true)
@@ -372,7 +370,8 @@ class Base
                 } else {
                     $this->isHierarchy = false;
                     if ($field instanceof FieldDateTime) {
-                        $this->where[] = '' . $this->table . '.' . $field->name . " like '" . PlugTime::mysql($_SESSION[$this->table]['filter'][$field->name]) . "%'";
+                        $this->where[] = '' . $this->table . '.' . $field->name . " like '"
+                            . PlugTime::mysql($_SESSION[$this->table]['filter'][$field->name]) . "%'";
                     } else {
                         $fval = DB::escape($_SESSION[$this->table]['filter'][$field->name]);
                         $this->where[] = "$this->table.$field->name " . (strpos($fval, '%') === false ? '=' : 'like') . " '$fval'";
@@ -384,7 +383,6 @@ class Base
 
     public function show()
     {
-
         $this->prepareWhere();
 
         $q = $this->getQueryCount();
@@ -393,7 +391,8 @@ class Base
             $this->isHierarchy = false;
             if ($_SESSION[$this->table]['filter'][$this->pid->name] !== '') {
                 $this->isHierarchy = false;
-                $this->where[] = '' . $this->table . '.' . $this->pid->name . "='" . DB::escape($_SESSION[$this->table]['filter'][$this->pid->name]) . "'";
+                $this->where[] = '' . $this->table . '.' . $this->pid->name . "='"
+                    . DB::escape($_SESSION[$this->table]['filter'][$this->pid->name]) . "'";
                 $q = $this->getQueryCount();
                 $cnt = DB::result($q, 'cnt');
             }
@@ -453,9 +452,7 @@ class Base
 
     protected function initTable()
     {
-
         if ($this->tableId) {
-
             // TABLE STRUCTURE
             $q = "
                 SELECT  t1.*, t2.class, '$this->table' `table`
@@ -543,16 +540,22 @@ class Base
         if (count($params)) {
             foreach ($params[''] as $group_id => $group) {
                 $this->params[$group['pos']][$group_id] = $group;
-                $this->params[$group['pos']][$group_id]['fields'] = array();
+                $this->params[$group['pos']][$group_id]['fields'] = [];
 
                 if (isset($params[$group_id])) {
                     foreach ($params[$group_id] as $param) {
                         $field = Helper::create($param);
                         $field->form = $group['name'];
+                        if ($dv = $param['default_value']) {
+                            $field->defaultValue = $dv;
+                        }
                         $this->params[$group['pos']][$group_id]['fields'][$param['name']] = $field;
                     }
                 } elseif ($group['class']) {
                     $field = Helper::create($group);
+                    if ($dv = $group['default_value']) {
+                        $field->defaultValue = $dv;
+                    }
                     $this->params[$group['pos']][$group_id]['field'] = $field;
                 }
             }
@@ -597,13 +600,15 @@ class Base
             /* SYSTEM FILTER */
             if ($field->name == 'priv_id' && !User::ican('dev')) {
                 if ($field->isnull) {
-                    $this->where_sys[] = "(" . $this->table . ".priv_id IN(" . join(',', User::privIds()) . ") OR " . $this->table . ".priv_id IS NULL)";
+                    $this->where_sys[] = "(" . $this->table . ".priv_id IN(" . join(',',User::privIds())
+                        . ") OR " . $this->table . ".priv_id IS NULL)";
                 } else {
                     $this->where_sys[] = "" . $this->table . ".priv_id IN(" . join(',', User::privIds()) . ")";
                 }
             }
             if ($field->name == 'role_id' && !User::ican('dev')) {
-                $this->where_sys[] = "" . $this->table . ".role_id IN(SELECT role_id FROM user_role WHERE priv_id IN(" . join(',', User::privIds()) . "))";
+                $this->where_sys[] = "" . $this->table
+                    . ".role_id IN(SELECT role_id FROM user_role WHERE priv_id IN(" . join(',',User::privIds()) . "))";
             }
         }
     }
@@ -613,7 +618,6 @@ class Base
         $pk = (int)$_REQUEST['pk'];
         $field = $_REQUEST['field'];
         if ($pk && isset($this->fields[$field])) {
-
             $q = "SELECT * FROM struct_data WHERE table_id = {$this->tableData['table_id']} AND name = '$field'";
             $fieldDB = DB::result($q);
             $fieldParams = unserialize($fieldDB['params']);
@@ -634,7 +638,6 @@ class Base
 
     public function form()
     {
-
         if (isset($_GET['ids']) && count(explode(',', $_GET['ids'])) == 1) {
             header("location: ?action=form&{$this->pk->name}={$_GET['ids']}");
             exit;
@@ -669,7 +672,7 @@ class Base
 
         foreach ($this->fks as $field) {
             $fv = &$_SESSION[$this->table]['filter'][$field->name];
-            if (@$fv !== '' && @$fv !== NULL) {
+            if (@$fv !== '' && @$fv !== null) {
                 $row[$field->name] = (int)@$fv;
             }
         }
@@ -836,7 +839,6 @@ class Base
                     $value = "Копия $value";
                 }
                 if ($value === null) {
-
                 } else {
                     $set[] = "$key = '$value'";
                 }
@@ -966,13 +968,11 @@ class Base
      */
     public function save()
     {
-
         if (!empty($_POST['group_ids'])) {
             return $this->saveGroup();
         }
 
         if ($this->validate()) {
-
             foreach ($this->fields as $index => $field) {
                 if ($field instanceof FieldVirtual) {
                     unset($this->fields[$index]);
@@ -1041,7 +1041,8 @@ class Base
                                     $path = $cur[$field_path->name] . $row[$field_alias->name] . '/';
                                     $where = $this->where_sys;
                                     $where[] = "" . $this->table . "." . $this->pk->name . "=" . $row[$this->pk->name];
-                                    $q = "UPDATE " . $this->table . " SET " . $field_path->name . "='" . $path . "' WHERE " . join(" AND ", $where);
+                                    $q = "UPDATE " . $this->table . " SET " . $field_path->name . "='" . $path
+                                        . "' WHERE " . join(" AND ",$where);
                                     DB::query($q);
                                     $row[$field_path->name] = $path;
 
@@ -1200,7 +1201,6 @@ class Base
      */
     public function delete()
     {
-
         if (!$this->canDelete) {
             Alert::error('Ошибка! Недостаточно прав для удаления записей в данном разделе', './');
         }
@@ -1253,7 +1253,6 @@ class Base
 
     protected function portlets($position = 'right')
     {
-
     }
 
     /**

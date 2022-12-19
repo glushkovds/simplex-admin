@@ -11,13 +11,13 @@ class AdminContent extends Base
     {
         $contentId = (int)($_REQUEST[$this->pk->name] ?? 0);
         $q = "
-            SELECT param_id, param_pid, pos, t1.name, t1.label, t1.params, t2.class, '$this->table' `table`
+            SELECT param_id, param_pid, pos, t1.name, t1.label, t1.params, t2.class, '$this->table' `table`, null default_value
             FROM struct_param t1
             LEFT JOIN struct_field t2 USING(field_id)
             WHERE table_id = $this->tableId
             UNION ALL
-            SELECT ctp_id + 1000000 as param_id, param_pid, position as pos, 
-                   t1.name, t1.label, t1.params, t2.class, '$this->table' `table`
+            SELECT ctp_id + 1000000 as param_id, param_pid, position as pos,
+                   t1.name, t1.label, t1.params, t2.class, '$this->table' `table`, default_value
             FROM content_template_param t1
             JOIN content c USING(template_id)
             LEFT JOIN struct_field t2 USING(field_id)

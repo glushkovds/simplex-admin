@@ -52,7 +52,6 @@ class Field
 
     public function __construct($row)
     {
-
         $this->name = $row['name'];
         $this->label = $row['label'];
         $this->table = $row['table'];
@@ -124,9 +123,18 @@ class Field
     {
         $this->width = (empty($width) || (int)$width == 0) ? 0 : (double)$width;
         $this->isVisible = $this->width > 0;
-        $this->styleCol['width'] = $this->width > 1 ? 'width: ' . $this->width . 'px' : (($this->width < 1 && $this->width > 0) ? 'width: ' . round($this->width * 100) . '%' : '');
+        $this->styleCol['width'] = $this->width > 1
+            ? 'width: ' . $this->width . 'px'
+            : (($this->width < 1 && $this->width > 0) ? 'width: ' . round($this->width * 100) . '%' : '');
     }
 
+    /**
+     * @param Field $field
+     * @param $group
+     * @param $params
+     * @param $row
+     * @return void
+     */
     public static function setFieldValue(&$field, $group, $params, $row)
     {
         $p = false;
@@ -136,9 +144,11 @@ class Field
 //        }
         $value = '';
         if ($group['name']) {
-            $value = isset($params[$group['name']][$field->name]) ? $params[$group['name']][$field->name] : $field->defaultValue;
+            $value = isset($params[$group['name']]) && array_key_exists($field->name, $params[$group['name']])
+                ? $params[$group['name']][$field->name]
+                : $field->defaultValue;
         } else {
-            $value = isset($params[$field->name]) ? $params[$field->name] : $field->defaultValue;
+            $value = array_key_exists($field->name, $params) ? $params[$field->name] : $field->defaultValue;
         }
         if ($p) {
             $value = $row[$field->name];
@@ -148,7 +158,9 @@ class Field
 
     public function input($value)
     {
-        $ret = '<input class="form-control" type="text" name="' . $this->inputName() . '" value="' . htmlspecialchars($value) . '"' . (empty($this->placeholder) ? '' : ' placeholder="' . $this->placeholder . '"') . ($this->readonly ? ' readonly' : '') . ' />' . "\n";
+        $ret = '<input class="form-control" type="text" name="' . $this->inputName() . '" value="' . htmlspecialchars($value)
+            . '"' . (empty($this->placeholder) ? '' : ' placeholder="' . $this->placeholder . '"')
+            . ($this->readonly ? ' readonly' : '') . ' />' . "\n";
 //        help выводится в tpl
         return $ret;
     }
@@ -184,7 +196,8 @@ class Field
     {
         $value = $row[$this->name . ($this->fk ? '_label' : '')];
         if ($this->pk) {
-            echo '<a href="javascript:openModal(\'?action=showDetail&id=' . htmlspecialchars($value) . '\',function(){$(\'.modal-dialog\').addClass(\'modal-wide\');})">' . $value . '</a>';
+            echo '<a href="javascript:openModal(\'?action=showDetail&id=' . htmlspecialchars($value)
+                . '\',function(){$(\'.modal-dialog\').addClass(\'modal-wide\');})">' . $value . '</a>';
         } else {
             echo $value;
         }
@@ -215,13 +228,13 @@ class Field
     {
         if ($this->filter) {
             $inExtra = $this->width == 0;
-            echo '<input type="text" class="form-control" name="filter[' . $this->name . ']" placeholder="' . ($inExtra ? htmlspecialchars($this->label) : '') . '" value="' . htmlspecialchars($value) . '" />';
+            echo '<input type="text" class="form-control" name="filter[' . $this->name . ']" placeholder="'
+                . ($inExtra ? htmlspecialchars($this->label) : '') . '" value="' . htmlspecialchars($value) . '" />';
         }
     }
 
     public function loadUI($onForm = false)
     {
-
     }
 
     public function selectQueryField()
