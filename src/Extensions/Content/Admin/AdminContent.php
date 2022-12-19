@@ -4,6 +4,7 @@ namespace Simplex\Admin\Extensions\Content\Admin;
 
 use Simplex\Admin\Base;
 use Simplex\Core\DB;
+use Simplex\Extensions\Content\Model\ModelContent;
 
 class AdminContent extends Base
 {
@@ -26,5 +27,18 @@ class AdminContent extends Base
         ";
         $params = DB::assoc($q, 'param_pid', 'param_id');
         return $params;
+    }
+
+    protected function initTable()
+    {
+        parent::initTable();
+        $this->fields['pid']->filterDataProvider = function () {
+            $rows = ModelContent::findAdv()
+                ->select(['content_id', 'title as label'])
+                ->where(new DB\Expr('EXISTS (SELECT 1 FROM content c WHERE c.pid=content.content_id)'))
+                ->orderBy('label')
+                ->all('content_id');
+            return [$rows];
+        };
     }
 }

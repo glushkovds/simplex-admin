@@ -575,6 +575,10 @@ class Base
         include 'Base/tpl/filter.extra.tpl';
     }
 
+    /**
+     * @param Field $field
+     * @return mixed
+     */
     protected function filterField($field)
     {
         return $field->filter(@$_SESSION[$this->table]['filter'][$field->name]);
