@@ -95,27 +95,37 @@ $showRightCol |= (bool) $rightPortletsHTML;
                                         }
                                     }
                                     ?>
-                                    <?php if ($hasWithoutGroup): ?>
-                                        <div class="portlet " rel="left">
-                                            <div class="portlet-title">
-                                                <div class="caption">
-                                                    <i class="fa fa-reorder"></i> Параметры
+                                <?php
+                                $paramGroups = [];
+                                foreach ($this->params['left'] as $param) {
+                                    if (!isset($param['field'])) continue;
+                                    $paramGroups[$param['group_name'] ?: 'Параметры'][] = $param;
+                                }
+
+                                ?>
+                                    <?php if ($hasWithoutGroup && $paramGroups): ?>
+                                        <?php foreach ($paramGroups as $groupName => $groupParams): ?>
+                                            <div class="portlet " rel="left">
+                                                <div class="portlet-title">
+                                                    <div class="caption">
+                                                        <i class="fa fa-reorder"></i> <?=$groupName ?>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="portlet-body form">
-                                                <div class="">
-                                                    <div class="form-body">
-                                                        <?php foreach ($this->params['left'] as $param): ?>
-                                                            <?php if (isset($param['field'])): ?>
-                                                                <?php $field = $param['field'] ?>
-                                                                <?php \Simplex\Admin\Fields\Field::setFieldValue($field, $group, $params, $row) ?>
-                                                                <?php include 'form.field.tpl' ?>
-                                                            <?php endif ?>
-                                                        <?php endforeach ?>
+                                                <div class="portlet-body form">
+                                                    <div class="">
+                                                        <div class="form-body">
+                                                            <?php foreach ($groupParams as $param): ?>
+                                                                <?php if (isset($param['field'])): ?>
+                                                                    <?php $field = $param['field'] ?>
+                                                                    <?php \Simplex\Admin\Fields\Field::setFieldValue($field, $group, $params, $row) ?>
+                                                                    <?php include 'form.field.tpl' ?>
+                                                                <?php endif ?>
+                                                            <?php endforeach ?>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        <?php endforeach ?>
                                     <?php endif ?>
                                     <?php foreach ($this->params['left'] as $group): ?>
                                         <?php if (count($group['fields'])): ?>
