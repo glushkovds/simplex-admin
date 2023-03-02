@@ -49,7 +49,7 @@ class AdminContent extends Base
                 break;
         }
 
-        $name = md5(time()) . $ext;
+        $name = md5(time()) . '.' . $ext;
         copy($_FILES['file']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/uf/images/content/source/' . $name);
 
         die('/uf/images/content/source/' . $name);
@@ -58,6 +58,10 @@ class AdminContent extends Base
     protected function initTable()
     {
         parent::initTable();
+        if ($_GET['action'] ?? '' == 'form') {
+            return;
+        }
+
         $this->fields['pid']->filterDataProvider = function () {
             $rows = ModelContent::findAdv()
                 ->select(['content_id', 'title as label'])
@@ -87,18 +91,5 @@ class AdminContent extends Base
         ";
         $params = DB::assoc($q, 'param_pid', 'param_id');
         return $params;
-    }
-
-    protected function initTable()
-    {
-        parent::initTable();
-        $this->fields['pid']->filterDataProvider = function () {
-            $rows = ModelContent::findAdv()
-                ->select(['content_id', 'title as label'])
-                ->where(new DB\Expr('EXISTS (SELECT 1 FROM content c WHERE c.pid=content.content_id)'))
-                ->orderBy('label')
-                ->all('content_id');
-            return [$rows];
-        };
     }
 }
