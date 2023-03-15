@@ -204,7 +204,7 @@ class Struct extends Base
         $success = DB::query('start transaction');
         $q = "delete from struct_data where table_id = $tableId";
 
-        $success &= DB::query($q);
+        $success = $success && DB::query($q);
         foreach ($rows as $i => $field) {
             $isPID = isset($fkeys[$field['Field']]) && $fkeys[$field['Field']]['table'] == $table['name'];
 
@@ -290,7 +290,7 @@ class Struct extends Base
                 INSERT INTO struct_data(npp, table_id, field_id, name, label, help, params)
                 VALUES($npp, $tableId, {$insert['field_id']}, '{$field['Field']}', '{$insert['label']}', '{$field['Comment']}', '{$insert['params']}')
             ";
-            $success &= $s0 = DB::query($q);
+            $success = $success && $s0 = DB::query($q);
             if (!$s0) {
                 Alert::error('<b>' . $q . '</b> &mdash; ' . DB::error());
             }

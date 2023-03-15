@@ -29,8 +29,13 @@ Page::coreJs('/theme/js/conquer/jquery.uniform.min.js');
 Page::coreJs('/theme/js/conquer/app.js');
 Page::coreJs('/theme/js/conquer/form-components.js');
 
+Page::css('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css');
+Page::js('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js');
+
 Page::js('/theme/default/js/cookie.js');
 Page::coreJs('/theme/js/default.js');
+Page::coreJs('/theme/js/bootup.js');
+Page::coreJs('/theme/js/table.js');
 Page::coreCss('/theme/css/default.css');
 
 ?>

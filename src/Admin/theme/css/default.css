@@ -124,3 +124,4 @@ a.black{display: inline-block; margin: 0 0 10px 0; font-weight: bold}
 .header .navbar-nav > li.dropdown .dropdown-toggle{font-size: 13px; height: 45px}
 
 .loader.loader-windows{height: 150px; background: url('../img/loader-windows.64.gif') no-repeat 50% 50%}
+.form-horizontal .form-group{margin-left: 0 !important; margin-right: 0 !important}

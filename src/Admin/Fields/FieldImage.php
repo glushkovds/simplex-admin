@@ -80,7 +80,6 @@ class FieldImage extends FieldFile
     public function getPOST($simple = false, $group = null)
     {
         $name = isset($_REQUEST[$this->name . '_old']) ? $_REQUEST[$this->name . '_old'] : '';
-//        var_dump($name);die;
         $img = new Image($this->path, $this->sizes);
         $img->loadPost($this->name);
         $nameNew = $img->getName();
