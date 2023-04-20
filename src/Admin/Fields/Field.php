@@ -138,6 +138,7 @@ class Field
     public static function setFieldValue(&$field, $group, $params, $row)
     {
         $p = false;
+        $params = $params ?: [];
 //        if (is_string($field)) {
 //            $field = $this->fields[$field];
 //            $p = true;

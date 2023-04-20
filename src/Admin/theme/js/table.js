@@ -34,8 +34,17 @@ const TableEditor = {
                 input += `
 <div class="form-group">
     <label for="te-${col.n}">${col.l}</label>
-    <img src="${cv}" alt="${col.l}" id="te-${col.n}-img">
+    <img src="${cv}" alt="${col.l}" id="te-${col.n}-img" style="max-width: 50% !important;">
     <input type="file" data-val="${cv}" class="form-control" name="${col.n}" id="te-${col.n}" onchange="TableEditor.onUpdateImage('${id}', '${col.n}', this)">
+</div>
+                `;
+            }
+            else if (col.t.startsWith('file')) {
+                input += `
+<div class="form-group">
+    <label for="te-${col.n}">${col.l}</label>
+    <p id="te-${col.n}-file">${cv}</p>
+    <input type="file" data-val="${cv}" class="form-control" name="${col.n}" id="te-${col.n}" onchange="TableEditor.onUpdateFile('${id}', '${col.n}', this)">
 </div>
                 `;
             }
@@ -143,6 +152,8 @@ const TableEditor = {
             return;
         }
 
+        document.querySelector(`#te-${n}-img`).innerHTML = '<b>Загружаю...</b>';
+
         let fd = new FormData();
         fd.append('file', i.files[0]);
         $.ajax({
@@ -153,6 +164,27 @@ const TableEditor = {
             contentType: false,
             success: function (r) {
                 document.querySelector(`#te-${n}-img`).src = r;
+                i.dataset.val = r;
+            }
+        });
+    },
+    onUpdateFile: function (id, n, i) {
+        if (!i.files[0]) {
+            return;
+        }
+
+        document.querySelector(`#te-${n}-file`).innerHTML = '<b>Загружаю...</b>';
+
+        let fd = new FormData();
+        fd.append('file', i.files[0]);
+        $.ajax({
+            url: window.location.href,
+            type: 'POST',
+            data: fd,
+            processData: false,
+            contentType: false,
+            success: function (r) {
+                document.querySelector(`#te-${n}-file`).innerHTML = r;
                 i.dataset.val = r;
             }
         });
@@ -184,6 +216,16 @@ const TableEditor = {
 
         return false;
     },
+    _isValAFile: function (id, n) {
+        const v = this._loadValue(id);
+        for (const col of v.s) {
+            if (col.n === n) {
+                return col.t.startsWith('file');
+            }
+        }
+
+        return false;
+    },
 
     _addVisualColumn: function (id, name) {
         const el = document.createElement('td');
@@ -201,7 +243,11 @@ const TableEditor = {
             if (!this._isValAnImage(id, k)) {
                 valdata += `<td>${val[k]}</td>`;
             } else {
-                valdata += `<td><img src="${val[k]}" style="max-width: 100px; max-height: 100px;" /></td>`;
+                if (!this._isValAFile(id, k)) {
+                    valdata += `<td><img src="${val[k]}" style="max-width: 100px; max-height: 100px;" /></td>`;
+                } else {
+                    valdata += `<td><p>${val[k]}</p></td>`;
+                }
             }
         }
 
@@ -222,7 +268,11 @@ const TableEditor = {
             if (!this._isValAnImage(id, k)) {
                 valdata += `<td>${val[k]}</td>`;
             } else {
-                valdata += `<td><img src="${val[k]}" style="max-width: 100px; max-height: 100px;" /></td>`;
+                if (!this._isValAFile(id, k)) {
+                    valdata += `<td><img src="${val[k]}" style="max-width: 100px; max-height: 100px;" /></td>`;
+                } else {
+                    valdata += `<td><p>${val[k]}</p></td>`;
+                }
             }
         }
         valdata += `<td>

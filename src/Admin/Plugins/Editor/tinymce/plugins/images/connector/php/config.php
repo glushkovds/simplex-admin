@@ -9,8 +9,8 @@ define('DIR_FILES',		'/uf/editor/file');
 
 
 //Высота и ширина картинки до которой будет сжато исходное изображение и создана ссылка на полную версию
-define('WIDTH_TO_LINK', 500);
-define('HEIGHT_TO_LINK', 500);
+define('WIDTH_TO_LINK', 5000);
+define('HEIGHT_TO_LINK', 5000);
 
 //Атрибуты которые будут присвоены ссылке (для скриптов типа lightbox)
 define('CLASS_LINK', 'lightview');

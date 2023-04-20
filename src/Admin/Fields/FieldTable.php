@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Admin\Fields;
+namespace Simplex\Admin\Fields;
 
 use Simplex\Admin\Fields\Field;
 use Simplex\Core\Container;
@@ -42,7 +42,7 @@ class FieldTable extends Field
         $jsId = (string)crc32($this->inputName());
 
         ob_start();
-        include '../theme/tpl/fields/table.tpl';
+        include 'tpl/table.tpl';
         return ob_get_clean();
     }
 }

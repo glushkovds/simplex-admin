@@ -24,6 +24,12 @@ class AdminContent extends Base
             die('');
         }
 
+        if (!str_starts_with($_FILES['file']['type'], 'image') && !str_starts_with($_FILES['file']['type'], 'video')) {
+            $name = $_FILES['file']['name'];
+            copy($_FILES['file']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/uf/files/content/' . $name);
+            exit('/uf/files/content/' . $name);
+        }
+
         $ext = '';
         switch ($_FILES['file']['type']) {
             case 'image/gif':
@@ -52,7 +58,7 @@ class AdminContent extends Base
         $name = md5(time()) . '.' . $ext;
         copy($_FILES['file']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/uf/images/content/source/' . $name);
 
-        die('/uf/images/content/source/' . $name);
+        exit('/uf/images/content/source/' . $name);
     }
 
     protected function initTable()
@@ -87,7 +93,7 @@ class AdminContent extends Base
             JOIN content c USING(template_id)
             LEFT JOIN struct_field t2 USING(field_id)
             WHERE c.content_id = $contentId
-            ORDER BY npp, label
+            ORDER BY npp
         ";
         $params = DB::assoc($q, 'param_pid', 'param_id');
         return $params;
