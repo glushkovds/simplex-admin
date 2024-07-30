@@ -2,9 +2,9 @@
 
 namespace Simplex\Admin;
 
-use Simplex\Core\ExtBase;
+use Simplex\Core\ExtensionBase;
 
-abstract class WidgetBase extends ExtBase
+abstract class WidgetBase extends ExtensionBase
 {
 
     protected $data;

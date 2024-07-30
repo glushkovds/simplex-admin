@@ -171,7 +171,7 @@ $colRowActionsWidth = 14 + 32 * $this->rowActionsCnt;
     <div class="modal-dialog">
         <div class="modal-content">
             <div style="text-align: center; padding: 50px 0">
-                <img class="loading" alt="" src="/admin/theme/img/ajax-modal-loading.gif">
+                <img class="loading" alt="" src="/vendor/glushkovds/simplex-admin/src/Admin/theme/img/ajax-modal-loading.gif">
             </div>
         </div>
     </div>
